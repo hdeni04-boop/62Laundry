@@ -28,8 +28,12 @@ info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/>',
 spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',
 tag:'<path d="M3 12V4h8l9 9-8 8z"/><circle cx="7.5" cy="7.5" r="1.3"/>',
 phone:'<path d="M7 3.5h10a1.5 1.5 0 0 1 1.5 1.5v14A1.5 1.5 0 0 1 17 20.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z"/><path d="M10.5 17h3"/>',
-dot:'<circle cx="12" cy="12" r="3"/>'
+dot:'<circle cx="12" cy="12" r="3"/>',
+user:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-3.6 3.9-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/>',
+star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/>',
+mail:'<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4.5 7.5 7.5 5.5 7.5-5.5"/>',
+alert:'<path d="M12 4.5 21 19.5H3z"/><path d="M12 10.5v3.5M12 16.6h.01"/>'
 };
-function ic(n,cls){return '<svg class="ic '+(cls||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[n]||ICONS.dot)+'</svg>';}
+function ic(n,cls){return '<svg class="ic '+(cls||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[n]||ICONS.dot)+'</svg>';}
 function statusLabel(s){return {'DITERIMA':'Diterima','DICUCI':'Dicuci','DIKERINGKAN':'Dikeringkan','DISETRIKA':'Disetrika','SIAP_DIAMBIL':'Siap Diambil','SELESAI':'Selesai','DIBATALKAN':'Dibatalkan'}[s]||s;}
 function pill(s){return '<span class="badge b-'+s+'">'+statusLabel(s)+'</span>';}
