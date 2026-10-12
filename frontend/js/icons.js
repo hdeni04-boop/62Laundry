@@ -2,6 +2,7 @@
 var ICONS={
 home:'<path d="M3 10.8 12 3l9 7.8"/><path d="M5.5 9.6V21h13V9.6"/><path d="M9.5 21v-6h5v6"/>',
 cart:'<circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/><path d="M3 4h2.2l2 11h10.6l1.8-7.5H6.4"/>',
+washer:'<rect x="4" y="3" width="16" height="18" rx="3.5"/><path d="M4 8.5h16"/><circle cx="7.4" cy="5.75" r="1" fill="currentColor" stroke="none"/><circle cx="10.6" cy="5.75" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="14.9" r="4.3"/><path d="M8.9 14.9c1.05-.9 2.1.9 3.15 0s2.1.9 3.15 0"/>',
 clipboard:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="M9 10h6M9 14h6M9 18h4"/>',
 users:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.9-4.6 5.5-4.6S14 16 14.5 19"/><path d="M16 6.2a3 3 0 0 1 0 5.6M17.5 14.6c2 .7 3.3 2.3 3.6 4.4"/>',
 pin:'<path d="M12 21.5S19 15.5 19 10.5a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10.4" r="2.6"/>',
