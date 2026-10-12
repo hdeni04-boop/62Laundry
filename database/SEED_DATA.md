@@ -14,7 +14,7 @@ USR-02	Kasir 1	1111	kasir	OUT-01	TRUE
 ### Outlets
 ```
 outlet_id	nama	alamat	telp
-OUT-01	Laundry Barokah	Jl. Contoh No.1	0812000001
+OUT-01	+62Laundry	Jl. Contoh No.1	0812000001
 ```
 
 ### Customers
@@ -37,9 +37,21 @@ SRV-04	Satuan / Helm / Sepatu	pcs	25000	3	TRUE
 ### Orders / OrderItems / StatusLogs / Payments
 Kosongkan dulu (header saja) — akan terisi dari POS. Contoh order demo dibuat otomatis saat uji POS pertama.
 
-### WALogs (baru, untuk C)
+### WALogs (untuk C)
 ```
 log_id	order_id	ke	wa	link	timestamp	via	status
+```
+
+### StockItems + StockTx (fitur Stok)
+```
+item_id	nama	satuan	stok_sekarang	min_stok	aktif
+STK-0001	Deterjen Cair	liter	20	5	TRUE
+STK-0002	Pewangi / Softener	liter	15	5	TRUE
+STK-0003	Plastik Kiloan	pcs	300	100	TRUE
+STK-0004	Hanger	pcs	50	10	TRUE
+```
+```
+tx_id	item_id	jenis	qty	keterangan	oleh	timestamp	sisa_stok
 ```
 
 ## Script Properties wajib

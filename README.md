@@ -1,4 +1,4 @@
-# 🧺 Laundry Barokah — 1 Outlet MVP
+# 🧺 +62Laundry — 1 Outlet MVP
 
 Stack: Spreadsheet (DB) + Apps Script Code.gs (Backend) + HTML/CSS/JS Murni (Frontend).
 
@@ -7,6 +7,8 @@ Stack: Spreadsheet (DB) + Apps Script Code.gs (Backend) + HTML/CSS/JS Murni (Fro
 - **Ikon SVG inline** di semua navigasi/aksi + **tooltip** (`data-tip`) penjelas singkat
 - **Dasbor KPI**: omzet hari ini, order masuk, siap diambil, belum lunas + **grafik 7 hari** + sebaran status (klik → filter pesanan)
 - **Halaman Pelanggan**: cari, tambah, avatar inisial, aksi cepat order/WA
+- **📦 Stok In/Out**: item kebutuhan laundry (deterjen, pewangi, plastik, hanger) — transaksi Masuk/Keluar, bar level, badge MENIPIS saat ≤ minimum, riwayat lengkap
+- **❓ Bantuan & FAQ**: 8 pertanyaan umum (akordeon) + kontak pengembang **Deni Hartono** — WA 0821-1526-1194 / denihartono111@gmail.com
 - **Bell notifikasi** (auto-refresh 30 dtk) = jumlah pesanan SIAP_DIAMBIL → klik = filter
 - **Pesanan**: filter pill status warna-warni, detail **timeline riwayat**, update status state-machine, bayar, cetak ulang, kirim WA
 - **Lacak publik** (QR nota): stepper progres 5 tahap + riwayat + status bayar

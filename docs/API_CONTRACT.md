@@ -14,6 +14,14 @@ listOrders, getOrderDetail (return +track_url +wa_link), updateStatus (auto WA l
 addPayment, dailyOmzet, waLink {order_id}, seedCheck, ping,
 dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_counts, stats7[7 hari]} — dipakai Dasbor & grafik Laporan.
 
+## Stok (kebutuhan laundry)
+| action | payload | return |
+|---|---|---|
+| listStock | {} | {items:[{item_id,nama,satuan,stok,min_stok,low}], tx_today} |
+| createStockItem | {nama, satuan, stok_awal, min_stok, oleh} | {item_id} (auto STK-XXXX) |
+| stockTx | {item_id, jenis:IN/OUT, qty, keterangan, oleh} | {item_id,jenis,qty,sisa} — tolak jika OUT > stok |
+| stockLog | {item_id?, limit?} | [{tx_id,item_nama,jenis,qty,keterangan,oleh,timestamp,sisa}] max 100 |
+
 ## State machine
 DITERIMA -> DICUCI -> DIKERINGKAN -> DISETRIKA -> SIAP_DIAMBIL -> SELESAI; DIBATALKAN terminal kecuali dari SELESAI.
 

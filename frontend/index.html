@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laundry Barokah — Kasir & Manajemen</title>
+    <title>+62Laundry — Kasir & Manajemen</title>
     <link rel="stylesheet" href="css/style.css">
     <script>try { var t = localStorage.getItem('laundry_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) { }</script>
 </head>
@@ -18,8 +18,10 @@
             <a href="#/pos" data-tip="Kasir: buat order baru"><b class="ni"></b><span>POS</span></a>
             <a href="#/orders" data-tip="Daftar & update status pesanan"><b class="ni"></b><span>Pesanan</span></a>
             <a href="#/customers" data-tip="Data pelanggan"><b class="ni"></b><span>Pelanggan</span></a>
+            <a href="#/stock" data-tip="Stok masuk/keluar kebutuhan laundry"><b class="ni"></b><span>Stok</span></a>
             <a href="#/tracking" data-tip="Lacak pesanan via nota (publik)"><b class="ni"></b><span>Lacak</span></a>
             <a href="#/laporan" data-tip="Omzet harian & grafik"><b class="ni"></b><span>Laporan</span></a>
+            <a href="#/help" data-tip="Bantuan, FAQ & kontak pengembang"><b class="ni"></b><span>Bantuan</span></a>
         </nav>
         <div class="tools">
             <button class="iconbtn" id="btnBell" data-tip="Pesanan siap diambil (klik utk filter)"
@@ -38,20 +40,22 @@
     <script src="js/pos.js"></script>
     <script src="js/orders.js"></script>
     <script src="js/customers.js"></script>
+    <script src="js/stock.js"></script>
+    <script src="js/help.js"></script>
     <script src="js/tracking.js"></script>
     <script src="js/laporan.js"></script>
     <script>
-        var NAV_ICONS = { dashboard: 'home', pos: 'cart', orders: 'clipboard', customers: 'users', tracking: 'pin', laporan: 'chart' };
+        var NAV_ICONS = { dashboard: 'home', pos: 'cart', orders: 'clipboard', customers: 'users', stock: 'box', tracking: 'pin', laporan: 'chart', help: 'help' };
         document.querySelectorAll('#mainNav a').forEach(function (a) { var k = a.getAttribute('href').slice(2); a.querySelector('.ni').innerHTML = ic(NAV_ICONS[k] || 'dot'); });
         document.getElementById('btnBell').innerHTML = ic('bell') + '<span class="dot" id="bellCount" style="display:none">0</span>';
         document.getElementById('btnTheme').innerHTML = ic('moon');
         document.getElementById('btnLogout').innerHTML = ic('logout');
         document.querySelector('.brand .logo').innerHTML = ic('washer');
-        var routes = { '#/dashboard': Dashboard.render, '#/pos': POS.render, '#/orders': Orders.render, '#/customers': Customers.render, '#/tracking': Tracking.render, '#/laporan': Laporan.render };
+        var routes = { '#/dashboard': Dashboard.render, '#/pos': POS.render, '#/orders': Orders.render, '#/customers': Customers.render, '#/stock': Stock.render, '#/tracking': Tracking.render, '#/laporan': Laporan.render, '#/help': Help.render };
         function markNav(h) { document.querySelectorAll('#mainNav a').forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === h); }); }
         function router() { var h = location.hash || '#/dashboard'; if (new URLSearchParams(location.search).get('code')) h = '#/tracking'; if (!localStorage.getItem('laundry_user') && h !== '#/tracking') { markNav(''); return Login.render(); } markNav(h); (routes[h] || Dashboard.render)(); }
         window.addEventListener('hashchange', router);
-        var Login = { render: function () { document.getElementById('app').innerHTML = '<section class="card login"><div class="logo"><span style="display:block;transform:scale(1.6)">' + ic('washer', 'lg') + '</span></div><h2 style="margin:0">Laundry Barokah</h2><p class="mut">Kasir & Manajemen — OUT-01</p><input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••"><button class="btn" id="btnLogin">Masuk ' + ic('arrow') + '</button><div class="demo"><button class="chip" data-pin="1111">👤 Kasir 1111</button><button class="chip" data-pin="123456">⭐ Owner 123456</button></div></section>'; document.querySelectorAll('[data-pin]').forEach(function (b) { b.onclick = function () { document.getElementById('pin').value = b.dataset.pin; }; }); document.getElementById('btnLogin').onclick = function () { Api.call('login', { pin: document.getElementById('pin').value }, true).then(function (r) { localStorage.setItem('laundry_user', JSON.stringify(r.user)); location.hash = '#/dashboard'; router(); startBell(); }).catch(function (e) { toast('⚠ ' + e.message); }); }; } };
+        var Login = { render: function () { document.getElementById('app').innerHTML = '<section class="card login"><div class="logo"><span style="display:block;transform:scale(1.6)">' + ic('washer', 'lg') + '</span></div><h2 style="margin:0">+62Laundry</h2><p class="mut">Kasir & Manajemen — OUT-01</p><input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••"><button class="btn" id="btnLogin">Masuk ' + ic('arrow') + '</button><div class="demo"><button class="chip" data-pin="1111">👤 Kasir 1111</button><button class="chip" data-pin="123456">⭐ Owner 123456</button></div></section>'; document.querySelectorAll('[data-pin]').forEach(function (b) { b.onclick = function () { document.getElementById('pin').value = b.dataset.pin; }; }); document.getElementById('btnLogin').onclick = function () { Api.call('login', { pin: document.getElementById('pin').value }, true).then(function (r) { localStorage.setItem('laundry_user', JSON.stringify(r.user)); location.hash = '#/dashboard'; router(); startBell(); }).catch(function (e) { toast('⚠ ' + e.message); }); }; } };
         function toast(m, ok) { var t = document.getElementById('toast'); t.textContent = m; t.className = 'show' + (ok === false ? ' err' : ''); clearTimeout(window._tt); window._tt = setTimeout(function () { t.className = ''; }, 3200); }
         function rupiah(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
         var _th = document.getElementById('btnTheme'); function paintTheme() { var d = document.documentElement.getAttribute('data-theme') === 'dark'; _th.innerHTML = d ? ic('sun') : ic('moon'); _th.setAttribute('data-tip', d ? 'Mode terang' : 'Mode gelap'); }

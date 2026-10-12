@@ -3,7 +3,7 @@
 ## Mode 1: LINK (default, gratis, tanpa vendor)
 1. Set Script Properties: WA_MODE=LINK, TRACK_BASE=https://domain-anda/laundry/# (atau URL hosting frontend).
 2. Alur: kasir update status → SIAP_DIAMBIL → backend simpan link ke WALogs + return wa_link → frontend tampilkan tombol "Kirim WA" → klik → WhatsApp terbuka dengan pesan terisi → kasir tekan Send.
-3. Pesan otomatis: "Halo {nama}, cucian {nota} SUDAH SIAP DIAMBIL di Laundry Barokah (OUT-01)..."
+   Contoh pesan: "Halo {nama}, cucian {nota} SUDAH SIAP DIAMBIL di +62Laundry (OUT-01)..."
 4. Normalisasi nomor: 08xx → 62xx otomatis.
 
 ## Mode 2: FONNTE (otomatis penuh, butuh topup)

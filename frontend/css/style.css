@@ -129,6 +129,17 @@ tbody tr:hover{background:color-mix(in srgb,var(--pri) 6%,transparent)}
 #toast{bottom:16px;font-size:13px;padding:10px 14px}}
 /* touch device: tooltip hover tidak berguna — sembunyikan agar tidak sesak */
 @media(hover:none){[data-tip]::after{display:none}}
+/* stok: bar level + FAQ akordeon */
+.stbar{height:8px;border-radius:99px;background:var(--bd);overflow:hidden;margin:8px 0 4px}
+.stbar i{display:block;height:100%;background:var(--grad);border-radius:99px;transition:.5s cubic-bezier(.2,.8,.2,1)}
+.stbar.low i{background:linear-gradient(135deg,#ef4444,#dc2626)}
+details.faq{border:1px solid var(--bd);border-radius:12px;margin:8px 0;background:var(--bg);overflow:hidden}
+details.faq summary{cursor:pointer;padding:12px 14px;font-weight:700;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:'＋';color:var(--pri);font-weight:800}
+details.faq[open] summary::after{content:'−'}
+details.faq[open] summary{color:var(--pri)}
+details.faq p{margin:0;padding:0 14px 13px;font-size:13.5px;line-height:1.6;color:var(--mut)}
 @media print{.topbar,#toast,.noprint{display:none!important}body{background:#fff}.card{border:0;box-shadow:none}.struk{width:58mm;font-family:monospace;font-size:12px}}
 
 .stat .chip.danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 10px 20px -10px rgba(239,68,68,.9)}

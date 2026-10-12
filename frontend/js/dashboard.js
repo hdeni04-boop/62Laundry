@@ -1,7 +1,7 @@
 /** Dasbor — kartu KPI, grafik 7 hari, sebaran status, aksi cepat. */
 var Dashboard={render:function(){var u=JSON.parse(localStorage.getItem('laundry_user')||'{}');
 document.getElementById('app').innerHTML=
-'<section class=hd><div><h1>Halo, '+(u.nama||'Kasir')+' 👋</h1><p class=mut>Ringkasan Laundry Barokah hari ini — '+new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</p></div>'+
+'<section class=hd><div><h1>Halo, '+(u.nama||'Kasir')+' 👋</h1><p class=mut>Ringkasan +62Laundry hari ini — '+new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</p></div>'+
 '<div class=row><a href="#/pos"><button class="btn">'+ic('plus')+' Order Baru</button></a><a href="#/laporan"><button class="btn ghost">'+ic('chart')+' Laporan</button></a></div></section>'+
 '<div class="grid4" id="kpi"></div>'+
 '<div class="grid2" style="margin-top:14px"><section class=card><h3>'+ic('chart')+' Omzet 7 Hari</h3><div class=bars id="bars7"></div></section>'+

@@ -4,7 +4,7 @@ Buat 1 file Google Spreadsheet dengan 8 sheet berikut.
 Baris 1 = header (beku / Freeze). Jangan ubah urutan kolom.
 
 ## 0. OUTLET_DEFAULT
-- `Outlets` cukup 1 baris: `OUT-01 | Laundry Barokah | Jl. Contoh No.1 | 0812xxxx`
+- `Outlets` cukup 1 baris: `OUT-01 | +62Laundry | Jl. Contoh No.1 | 0812xxxx`
 
 ## 1. Users
 | user_id | nama | pin | role | outlet_id | aktif |
@@ -17,7 +17,7 @@ Baris 1 = header (beku / Freeze). Jangan ubah urutan kolom.
 ## 2. Outlets
 | outlet_id | nama | alamat | telp |
 |---|---|---|---|
-| OUT-01 | Laundry Barokah | Jl. Contoh No.1 | 0812xxxx |
+| OUT-01 | +62Laundry | Jl. Contoh No.1 | 0812xxxx |
 
 ## 3. Customers
 | customer_id | nama | wa | alamat |
@@ -48,6 +48,17 @@ Baris 1 = header (beku / Freeze). Jangan ubah urutan kolom.
 
 ## 8. Payments
 | payment_id | order_id | jumlah | metode | tanggal | kasir |
+
+## 9. StockItems (Stok kebutuhan laundry)
+| item_id | nama | satuan | stok_sekarang | min_stok | aktif |
+|---|---|---|---|---|---|
+| STK-0001 | Deterjen Cair | liter | 20 | 5 | TRUE |
+- `item_id` format `STK-0001` (auto). `stok_sekarang` di-update backend (bukan diedit manual).
+
+## 10. StockTx (Riwayat masuk/keluar)
+| tx_id | item_id | jenis | qty | keterangan | oleh | timestamp | sisa_stok |
+|---|---|---|---|---|---|---|---|
+- `jenis`: IN / OUT. OUT tidak boleh melebihi stok (validasi backend + LockService).
 
 ## Aturan
 1. Aktifkan Data Validation untuk Orders.status & Orders.metode.
