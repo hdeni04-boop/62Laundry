@@ -1,82 +1,48 @@
-/************************************************************
- * LAUNDRY APP — Backend Code.gs (1 Outlet MVP)
- * DB: Google Spreadsheet | Frontend: HTML/CSS/JS murni
- * Deploy: Extensions > Apps Script > Deploy > New deployment > Web app
- ************************************************************/
-var SHEET_USERS='Users',SHEET_OUTLETS='Outlets',SHEET_CUSTOMERS='Customers',
-SHEET_SERVICES='Services',SHEET_ORDERS='Orders',SHEET_ITEMS='OrderItems',
-SHEET_LOGS='StatusLogs',SHEET_PAY='Payments';
-var OUTLET_DEFAULT='OUT-01';
+/*** LAUNDRY 1-OUTLET MVP + A(seed siap) + B(struk QR) + C(WA otomatis) ***/
+var SHEET_USERS='Users',SHEET_OUTLETS='Outlets',SHEET_CUSTOMERS='Customers';
+var SHEET_SERVICES='Services',SHEET_ORDERS='Orders',SHEET_ITEMS='OrderItems';
+var SHEET_LOGS='StatusLogs',SHEET_PAY='Payments',SHEET_WA='WALogs';
+var OUTLET_DEFAULT='OUT-01',TRACK_BASE='';
 var ALLOWED_NEXT={DITERIMA:['DICUCI','DIBATALKAN'],DICUCI:['DIKERINGKAN','DIBATALKAN'],DIKERINGKAN:['DISETRIKA','DIBATALKAN'],DISETRIKA:['SIAP_DIAMBIL','DIBATALKAN'],SIAP_DIAMBIL:['SELESAI','DIBATALKAN'],SELESAI:[],DIBATALKAN:[]};
-
 function getApiToken(){return PropertiesService.getScriptProperties().getProperty('API_TOKEN')||'GANTI_TOKEN_RAHASIA';}
 function getSs(){var id=PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID');return id?SpreadsheetApp.openById(id):SpreadsheetApp.getActiveSpreadsheet();}
-function sh(name){return getSs().getSheetByName(name);}
-function rows(name){var s=sh(name);if(!s)return[];var v=s.getDataRange().getValues();if(v.length<2)return[];var h=v[0],out=[];for(var i=1;i<v.length;i++){var o={_row:i+1};for(var j=0;j<h.length;j++)o[h[j]]=v[i][j];out.push(o);}return out;}
-function appendRow(name,arr){sh(name).appendRow(arr);SpreadsheetApp.flush();}
+function getTrackBase(){return PropertiesService.getScriptProperties().getProperty('TRACK_BASE')||'';}
+function sh(n){return getSs().getSheetByName(n);}
+function ensureSheet(n,header){var s=getSs().getSheetByName(n);if(!s){s=getSs().insertSheet(n);s.appendRow(header);}return s;}
+function rows(n){var s=sh(n);if(!s)return[];var v=s.getDataRange().getValues();if(v.length<2)return[];var h=v[0],o=[];for(var i=1;i<v.length;i++){var r={_row:i+1};for(var j=0;j<h.length;j++)r[h[j]]=v[i][j];o.push(r);}return o;}
+function appendRow(n,a){sh(n).appendRow(a);SpreadsheetApp.flush();}
 function pad(n,l){n=String(n);while(n.length<l)n='0'+n;return n;}
-function todayStr(){return Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Jakarta','yyyy-MM-dd');}
-function nowStr(){return Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Jakarta','yyyy-MM-dd HH:mm:ss');}
+function tz(){return Session.getScriptTimeZone()||'Asia/Jakarta';}
+function todayStr(){return Utilities.formatDate(new Date(),tz(),'yyyy-MM-dd');}
+function nowStr(){return Utilities.formatDate(new Date(),tz(),'yyyy-MM-dd HH:mm:ss');}
 function json(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);}
-function ok(data){return json({ok:true,data:data});}
-function fail(msg){return json({ok:false,error:String(msg)});}
-function checkAuth(token){return String(token||'')===String(getApiToken());}
-function findUserByPin(pin){var a=rows(SHEET_USERS);for(var i=0;i<a.length;i++){if(String(a[i].pin)===String(pin)&&String(a[i].aktif).toUpperCase()==='TRUE')return a[i];}return null;}
-
-function doGet(e){
-  e=e||{};var p=e.parameter||{};
-  if(p.action==='ping')return ok({time:nowStr()});
-  if(p.action==='track'&&p.code)return trackPublic(p.code);
-  return ok({app:'LaundryApp 1-Outlet',time:nowStr(),hint:'POST {action,token,payload}'});
-}
-function doPost(e){
-  try{
-    var body=JSON.parse((e&&e.postData&&e.postData.contents)||'{}');
-    var action=body.action||'',token=body.token||'',payload=body.payload||{};
-    if(action!=='login'&&!checkAuth(token))return fail('Unauthorized: token salah.');
-    switch(action){
-      case 'login':return actLogin(payload);
-      case 'getServices':return ok(actServices());
-      case 'getCustomers':return ok(actGetCustomers(payload));
-      case 'createCustomer':return ok(actCreateCustomer(payload));
-      case 'createOrder':return ok(actCreateOrder(payload));
-      case 'listOrders':return ok(actListOrders(payload));
-      case 'getOrderDetail':return ok(actGetDetail(payload));
-      case 'updateStatus':return ok(actUpdateStatus(payload));
-      case 'addPayment':return ok(actAddPayment(payload));
-      case 'dailyOmzet':return ok(actOmzet(payload));
-      case 'ping':return ok({time:nowStr()});
-      default:return fail('Action tidak dikenal: '+action);
-    }
-  }catch(err){Logger.log(err);return fail(err&&err.message||err);}
-}
-function trackPublic(code){
-  var d=getOrderById(String(code).trim());
-  if(!d)return json({ok:false,error:'Nota tidak ditemukan'});
-function actLogin(p){var u=findUserByPin(p.pin);if(!u)throw new Error('PIN salah / user nonaktif');return{token:getApiToken(),user:{user_id:String(u.user_id),nama:String(u.nama),role:String(u.role)}};}
+function ok(d){return json({ok:true,data:d});}
+function fail(m){return json({ok:false,error:String(m)});}
+function checkAuth(t){return String(t||'')===String(getApiToken());}
+function findUser(pin){var a=rows(SHEET_USERS);for(var i=0;i<a.length;i++){if(String(a[i].pin)===String(pin)&&String(a[i].aktif).toUpperCase()==='TRUE')return a[i];}return null;}
+function custMap(){var m={};rows(SHEET_CUSTOMERS).forEach(function(c){m[String(c.customer_id)]=c;});return m;}
+function doGet(e){e=e||{};var p=e.parameter||{};if(p.action==='ping')return ok({time:nowStr()});if(p.action==='track'&&p.code)return trackPublic(String(p.code));if(p.action==='waQR'&&p.code)return waQR(String(p.code));return ok({app:'LaundryApp 1-Outlet',time:nowStr()});}
+function doPost(e){try{var b=JSON.parse((e&&e.postData&&e.postData.contents)||'{}');var a=b.action||'',t=b.token||'',pl=b.payload||{};if(a!=='login'&&!checkAuth(t))return fail('Unauthorized');switch(a){case 'login':return ok(actLogin(pl));case 'getServices':return ok(actServices());case 'getCustomers':return ok(actGetCustomers(pl));case 'createCustomer':return ok(actCreateCustomer(pl));case 'createOrder':return ok(actCreateOrder(pl));case 'listOrders':return ok(actListOrders(pl));case 'getOrderDetail':return ok(actGetDetail(pl));case 'updateStatus':return ok(actUpdateStatus(pl));case 'addPayment':return ok(actAddPayment(pl));case 'dailyOmzet':return ok(actOmzet(pl));case 'waLink':return ok({link:waLinkFor(pl.order_id)});case 'seedCheck':return ok(seedCheck());case 'ping':return ok({time:nowStr()});default:return fail('Unknown: '+a);}}catch(err){Logger.log(err);return fail(err.message||err);}}
+function actLogin(p){var u=findUser(p.pin);if(!u)throw new Error('PIN salah');return{token:getApiToken(),user:{user_id:String(u.user_id),nama:String(u.nama),role:String(u.role)}};}
 function actServices(){return rows(SHEET_SERVICES).filter(function(s){return String(s.aktif).toUpperCase()==='TRUE';}).map(function(s){return{service_id:String(s.service_id),nama:String(s.nama),satuan:String(s.satuan),harga:Number(s.harga)||0,estimasi_hari:Number(s.estimasi_hari)||2};});}
-function actGetCustomers(p){var q=String((p&&p.q)||'').toLowerCase(),a=rows(SHEET_CUSTOMERS),out=[];for(var i=a.length-1;i>=0&&out.length<100;i--){var nm=String(a[i].nama||'').toLowerCase(),wa=String(a[i].wa||'').toLowerCase();if(!q||nm.indexOf(q)>-1||wa.indexOf(q)>-1)out.push({customer_id:String(a[i].customer_id),nama:String(a[i].nama),wa:String(a[i].wa||''),alamat:String(a[i].alamat||'')});}return out;}
-function nextCustomerId(){var a=rows(SHEET_CUSTOMERS),mx=0;for(var i=0;i<a.length;i++){var m=/CUS-(\d+)/.exec(String(a[i].customer_id||''));if(m)mx=Math.max(mx,parseInt(m[1],10));}return 'CUS-'+pad(mx+1,4);}
-function actCreateCustomer(p){if(!p.nama)throw new Error('Nama customer wajib');var id=nextCustomerId();appendRow(SHEET_CUSTOMERS,[id,p.nama,p.wa||'',p.alamat||'']);return{customer_id:id};}
+function actGetCustomers(p){var q=String((p&&p.q)||'').toLowerCase(),a=rows(SHEET_CUSTOMERS),o=[];for(var i=a.length-1;i>=0&&o.length<100;i--){if(!q||String(a[i].nama).toLowerCase().indexOf(q)>-1||String(a[i].wa||'').indexOf(q)>-1)o.push({customer_id:String(a[i].customer_id),nama:String(a[i].nama),wa:String(a[i].wa||''),alamat:String(a[i].alamat||'')});}return o;}
+function nextCustId(){var a=rows(SHEET_CUSTOMERS),m=0;for(var i=0;i<a.length;i++){var x=/CUS-(\d+)/.exec(String(a[i].customer_id||''));if(x)m=Math.max(m,parseInt(x[1],10));}return 'CUS-'+pad(m+1,4);}
+function actCreateCustomer(p){if(!p.nama)throw new Error('Nama wajib');var id=nextCustId();appendRow(SHEET_CUSTOMERS,[id,p.nama,p.wa||'',p.alamat||'']);return{customer_id:id};}
+function nextOrderId(){var d=Utilities.formatDate(new Date(),tz(),'yyyyMMdd'),a=rows(SHEET_ORDERS),m=0;for(var i=0;i<a.length;i++){var x=new RegExp('LND-'+d+'-(\\d+)').exec(String(a[i].order_id||''));if(x)m=Math.max(m,parseInt(x[1],10));}return 'LND-'+d+'-'+pad(m+1,4);}
+function actCreateOrder(p){var lock=LockService.getScriptLock();lock.waitLock(30000);try{if(!p.customer_id)throw new Error('customer_id?');if(!p.items||!p.items.length)throw new Error('items?');var sm=svcMap(),total=0,est=0,lines=[];for(var i=0;i<p.items.length;i++){var it=p.items[i],s=sm[String(it.service_id)];if(!s)throw new Error('Svc? '+it.service_id);var q=Number(it.qty)||0;if(q<=0)throw new Error('Qty>0');var pr=Number(s.harga)||0;total+=pr*q;est=Math.max(est,Number(s.estimasi_hari)||2);lines.push([null,String(it.service_id),q,pr,pr*q,String(s.nama)]);}var oid=nextOrderId(),dp=Number(p.bayar_dp)||0,met=String(p.metode||'Cash'),tgl=todayStr();var e2=new Date();e2.setDate(e2.getDate()+est);var eS=Utilities.formatDate(e2,tz(),'yyyy-MM-dd');appendRow(SHEET_ORDERS,[oid,tgl,String(p.customer_id),OUTLET_DEFAULT,String(p.kasir||''),total,dp,total-dp,met,'DITERIMA',eS]);for(var j=0;j<lines.length;j++){lines[j][0]=oid;appendRow(SHEET_ITEMS,lines[j].slice(0,5));}appendRow(SHEET_LOGS,[Utilities.getUuid(),oid,'','DITERIMA',String(p.kasir||''),nowStr(),String(p.catatan||'Order dibuat')]);if(dp>0)appendRow(SHEET_PAY,[Utilities.getUuid(),oid,dp,met,tgl+' 00:00:00',String(p.kasir||'')]);var wa='';try{wa=waLinkFor(oid);}catch(x){}return{order_id:oid,total:total,sisa:total-dp,estimasi_selesai:eS,wa_link:wa,track_url:trackUrlFor(oid)};}finally{lock.releaseLock();}}
+function actListOrders(p){p=p||{};var st=String(p.status||''),q=String(p.q||'').toLowerCase(),lim=Math.min(Number(p.limit)||50,100),cm=custMap(),a=rows(SHEET_ORDERS),o=[];for(var i=a.length-1;i>=0&&o.length<lim;i--){var r=a[i];if(st&&String(r.status)!==st)continue;var nm=String(cm[String(r.customer_id)]?cm[String(r.customer_id)].nama:'').toLowerCase();if(q&&String(r.order_id).toLowerCase().indexOf(q)<0&&nm.indexOf(q)<0)continue;o.push({order_id:String(r.order_id),tanggal_masuk:String(r.tanggal_masuk||''),customer_nama:cm[String(r.customer_id)]?String(cm[String(r.customer_id)].nama):String(r.customer_id),customer_wa:cm[String(r.customer_id)]?String(cm[String(r.customer_id)].wa||''):''});o[o.length-1].total=Number(r.total)||0;o[o.length-1].sisa=Number(r.sisa)||0;o[o.length-1].status=String(r.status);o[o.length-1].estimasi_selesai=String(r.estimasi_selesai||'');}return o;}
+function actGetDetail(p){var d=getOrderById(p.order_id);if(!d)throw new Error('Order?');var cm=custMap(),sm=svcMap();return{order:d.order,customer:cm[String(d.order.customer_id)]||null,items:d.items.map(function(it){var s=sm[String(it.service_id)]||{};return{service_id:String(it.service_id),service_nama:String(s.nama||it.service_id),qty:Number(it.qty)||0,harga_satuan:Number(it.harga_satuan)||0,subtotal:Number(it.subtotal)||0};}),logs:d.logs,payments:d.payments,track_url:trackUrlFor(String(d.order.order_id)),wa_link:waLinkFor(String(d.order.order_id))};}
+function actUpdateStatus(p){var d=getOrderById(p.order_id);if(!d)throw new Error('Order?');var dari=String(d.order.status),ke=String(p.ke||'');if((ALLOWED_NEXT[dari]||[]).indexOf(ke)<0)throw new Error('Ilegal '+dari+'->'+ke);var s=sh(SHEET_ORDERS),v=s.getDataRange().getValues();for(var i=1;i<v.length;i++){if(String(v[i][0])===String(p.order_id)){s.getRange(i+1,10).setValue(ke);break;}}appendRow(SHEET_LOGS,[Utilities.getUuid(),String(p.order_id),dari,ke,String(p.oleh||''),nowStr(),String(p.catatan||'')]);var wa='';if(ke==='SIAP_DIAMBIL'||ke==='SELESAI'){try{wa=sendWaAuto(String(p.order_id),ke);}catch(x){Logger.log(x);}}SpreadsheetApp.flush();return{order_id:String(p.order_id),dari:dari,ke:ke,wa_link:waLinkFor(String(p.order_id)),wa_sent:wa};}
+function actAddPayment(p){var d=getOrderById(p.order_id);if(!d)throw new Error('Order?');var j=Number(p.jumlah)||0;if(j<=0)throw new Error('Jumlah>0');var sisa=(Number(d.order.sisa)||0)-j;if(sisa<0)throw new Error('Overpay sisa '+d.order.sisa);appendRow(SHEET_PAY,[Utilities.getUuid(),String(p.order_id),j,String(p.metode||'Cash'),nowStr(),String(p.kasir||'')]);var s=sh(SHEET_ORDERS),v=s.getDataRange().getValues();for(var i=1;i<v.length;i++){if(String(v[i][0])===String(p.order_id)){s.getRange(i+1,7).setValue((Number(v[i][6])||0)+j);s.getRange(i+1,8).setValue(sisa);break;}}SpreadsheetApp.flush();return{payment_id:'PAY-'+Date.now(),sisa:sisa};}
+function actOmzet(p){var t=String((p&&p.tanggal)||todayStr()),a=rows(SHEET_ORDERS),om=0,n=0,lu=0,bl=0;for(var i=0;i<a.length;i++){if(String(a[i].tanggal_masuk)===t&&String(a[i].status)!=='DIBATALKAN'){om+=Number(a[i].total)||0;n++;if((Number(a[i].sisa)||0)<=0)lu++;else bl++;}}var kas=rows(SHEET_PAY).filter(function(r){return String(r.tanggal||'').indexOf(t)===0;}).reduce(function(x,r){return x+(Number(r.jumlah)||0);},0);return{tanggal:t,total_omzet:om,total_order:n,lunas:lu,belum_lunas:bl,kas_masuk:kas};}
+function normWA(w){w=String(w||'').replace(/\D/g,'');if(!w)return '';if(w.charAt(0)==='0')w='62'+w.substring(1);return w;}
+function waQR(code){var l=waLinkFor(code);if(!l)return json({ok:false,error:'No WA customer'});return ok({link:l});}
+function sendWaAuto(oid,ke){ensureSheet(SHEET_WA,['log_id','order_id','ke','wa','link','timestamp','via','status']);var l=waLinkFor(oid);var d=getOrderById(oid),cm=custMap(),c=cm[String(d.order.customer_id)]||{};var mode=PropertiesService.getScriptProperties().getProperty('WA_MODE')||'LINK';var res=mode+' (buka link utk kirim)';if(mode==='FONNTE'){var tok=PropertiesService.getScriptProperties().getProperty('FONNTE_TOKEN')||'';if(tok){try{var r=UrlFetchApp.fetch('https://api.fonnte.com/send',{method:'post',headers:{Authorization:tok},payload:{target:normWA(c.wa),message:waMsgFor(oid,ke)}});res='FONNTE:'+r.getContentText().substring(0,120);}catch(x){res='FONNTE-ERR:'+x;}}}appendRow(SHEET_WA,[Utilities.getUuid(),oid,ke,normWA(c.wa),l,nowStr(),mode,res]);return res;}
+function seedLaundry(){var db=getSs();var need={Users:['user_id','nama','pin','role','outlet_id','aktif'],Outlets:['outlet_id','nama','alamat','telp'],Customers:['customer_id','nama','wa','alamat'],Services:['service_id','nama','satuan','harga','estimasi_hari','aktif'],Orders:['order_id','tanggal_masuk','customer_id','outlet_id','kasir','total','bayar_dp','sisa','metode','status','estimasi_selesai'],OrderItems:['order_id','service_id','qty','harga_satuan','subtotal'],StatusLogs:['log_id','order_id','dari','ke','oleh','timestamp','catatan'],Payments:['payment_id','order_id','jumlah','metode','tanggal','kasir'],WALogs:['log_id','order_id','ke','wa','link','timestamp','via','status']};for(var k in need)ensureSheet(k,need[k]);if(!rows(SHEET_OUTLETS).length)appendRow(SHEET_OUTLETS,['OUT-01','Laundry Barokah','Jl. Contoh No.1','0812000001']);if(!rows(SHEET_USERS).length){appendRow(SHEET_USERS,['USR-01','Owner','123456','owner','OUT-01','TRUE']);appendRow(SHEET_USERS,['USR-02','Kasir 1','1111','kasir','OUT-01','TRUE']);}if(!rows(SHEET_SERVICES).length){appendRow(SHEET_SERVICES,['SRV-01','Cuci Kering Reguler','kg',7000,2,'TRUE']);appendRow(SHEET_SERVICES,['SRV-02','Cuci + Setrika Reguler','kg',10000,3,'TRUE']);appendRow(SHEET_SERVICES,['SRV-03','Express 1 Hari','kg',15000,1,'TRUE']);appendRow(SHEET_SERVICES,['SRV-04','Satuan / Helm / Sepatu','pcs',25000,3,'TRUE']);}if(!rows(SHEET_CUSTOMERS).length){appendRow(SHEET_CUSTOMERS,['CUS-0001','Budi Santoso','0812111222','Jl. Mawar 1']);appendRow(SHEET_CUSTOMERS,['CUS-0002','Siti Aminah','0812333444','Jl. Melati 2']);}return seedCheck();}
+function trackUrlFor(oid){var b=getTrackBase();if(b)return b+(b.indexOf('?')>-1?'&':'?')+'code='+encodeURIComponent(oid);return 'TRACK:'+oid;}
+function waMsgFor(oid,ke){var d=getOrderById(oid),cm=custMap(),c=cm[String(d.order.customer_id)]||{},nm=String(c.nama||'Kak');if(ke==='SIAP_DIAMBIL')return 'Halo '+nm+', cucian '+oid+' SUDAH SIAP DIAMBIL di Laundry Barokah (OUT-01). Estimasi awal '+d.order.estimasi_selesai+'. Tks!';if(ke==='SELESAI')return 'Halo '+nm+', order '+oid+' SELESAI. Terima kasih sudah laundry di kami!';return 'Halo '+nm+', status '+oid+': '+ke+'.';}
+function waLinkFor(oid){var d=getOrderById(oid);if(!d)return '';var cm=custMap(),c=cm[String(d.order.customer_id)]||{},wa=normWA(c.wa);if(!wa)return '';return 'https://wa.me/'+wa+'?text='+encodeURIComponent(waMsgFor(oid,String(d.order.status)));}
+function trackPublic(code){var d=getOrderById(code.trim());if(!d)return json({ok:false,error:'Nota?'});return ok({order_id:String(d.order.order_id),status:String(d.order.status),estimasi_selesai:String(d.order.estimasi_selesai||''),tanggal_masuk:String(d.order.tanggal_masuk||''),sisa:Number(d.order.sisa)||0,logs:d.logs.map(function(l){return{ke:String(l.ke),timestamp:String(l.timestamp||''),catatan:String(l.catatan||'')}})});}
+function seedCheck(){var o={};[SHEET_USERS,SHEET_OUTLETS,SHEET_CUSTOMERS,SHEET_SERVICES,SHEET_ORDERS,SHEET_ITEMS,SHEET_LOGS,SHEET_PAY,SHEET_WA].forEach(function(n){o[n]=rows(n).length;});return o;}
 function svcMap(){var m={};rows(SHEET_SERVICES).forEach(function(s){m[String(s.service_id)]=s;});return m;}
-function nextOrderId(){var d=Utilities.formatDate(new Date(),Session.getScriptTimeZone()||'Asia/Jakarta','yyyyMMdd');var a=rows(SHEET_ORDERS),mx=0;for(var i=0;i<a.length;i++){var m=new RegExp('LND-'+d+'-(\\d+)').exec(String(a[i].order_id||''));if(m)mx=Math.max(mx,parseInt(m[1],10));}return 'LND-'+d+'-'+pad(mx+1,4);}
-function getOrderById(id){var a=rows(SHEET_ORDERS),o=null;for(var i=0;i<a.length;i++)if(String(a[i].order_id)===String(id))o=a[i];if(!o)return null;var items=rows(SHEET_ITEMS).filter(function(r){return String(r.order_id)===String(id);});var logs=rows(SHEET_LOGS).filter(function(r){return String(r.order_id)===String(id);});var pays=rows(SHEET_PAY).filter(function(r){return String(r.order_id)===String(id);});return{order:o,items:items,logs:logs,payments:pays};}
-function actCreateOrder(p){var lock=LockService.getScriptLock();lock.waitLock(30000);try{
-function actListOrders(p){p=p||{};var st=String(p.status||''),q=String(p.q||'').toLowerCase(),lim=Math.min(Number(p.limit)||50,100);var cust={};rows(SHEET_CUSTOMERS).forEach(function(c){cust[String(c.customer_id)]=String(c.nama);});var a=rows(SHEET_ORDERS),out=[];for(var i=a.length-1;i>=0&&out.length<lim;i--){var o=a[i];if(st&&String(o.status)!==st)continue;var nm=(cust[String(o.customer_id)]||'').toLowerCase();if(q&&(String(o.order_id).toLowerCase().indexOf(q)<0&&nm.indexOf(q)<0))continue;out.push({order_id:String(o.order_id),tanggal_masuk:String(o.tanggal_masuk||''),customer_nama:cust[String(o.customer_id)]||String(o.customer_id),total:Number(o.total)||0,sisa:Number(o.sisa)||0,status:String(o.status),estimasi_selesai:String(o.estimasi_selesai||'')});}return out;}
-function actGetDetail(p){var d=getOrderById(p.order_id);if(!d)throw new Error('Order?');var cust={};rows(SHEET_CUSTOMERS).forEach(function(c){cust[String(c.customer_id)]=c;});return{order:d.order,customer:cust[String(d.order.customer_id)]||null,items:d.items,logs:d.logs,payments:d.payments};}
-function actUpdateStatus(p){var d=getOrderById(p.order_id);if(!d)throw new Error('Order?');var dari=String(d.order.status),ke=String(p.ke||'');if((ALLOWED_NEXT[dari]||[]).indexOf(ke)<0)throw new Error('Ilegal: '+dari+'->'+ke);var s=sh(SHEET_ORDERS),vals=s.getDataRange().getValues();for(var i=1;i<vals.length;i++){if(String(vals[i][0])===String(p.order_id)){s.getRange(i+1,10).setValue(ke);break;}}appendRow(SHEET_LOGS,[Utilities.getUuid(),p.order_id,dari,ke,p.oleh||'',nowStr(),p.catatan||'']);SpreadsheetApp.flush();return{order_id:String(p.order_id),dari:dari,ke:ke};}
-function actAddPayment(p){var d=getOrderById(p.order_id);if(!d)throw new Error('Order?');var jml=Number(p.jumlah)||0;if(jml<=0)throw new Error('Jumlah>0');var sisa=(Number(d.order.sisa)||0)-jml;if(sisa<0)throw new Error('Overpay, sisa '+d.order.sisa);appendRow(SHEET_PAY,[Utilities.getUuid(),p.order_id,jml,p.metode||'Cash',nowStr(),p.kasir||'']);var s=sh(SHEET_ORDERS),vals=s.getDataRange().getValues();for(var i=1;i<vals.length;i++){if(String(vals[i][0])===String(p.order_id)){s.getRange(i+1,7).setValue((Number(vals[i][6])||0)+jml);s.getRange(i+1,8).setValue(sisa);break;}}SpreadsheetApp.flush();return{payment_id:'PAY-'+Date.now(),sisa:sisa};}
-function actOmzet(p){var t=String((p&&p.tanggal)||todayStr());var a=rows(SHEET_ORDERS),om=0,n=0,lunas=0,bl=0;for(var i=0;i<a.length;i++){if(String(a[i].tanggal_masuk)===t&&String(a[i].status)!=='DIBATALKAN'){om+=Number(a[i].total)||0;n++;if((Number(a[i].sisa)||0)<=0)lunas++;else bl++;}}var pays=rows(SHEET_PAY).filter(function(r){return String(r.tanggal||'').indexOf(t)===0;}).reduce(function(x,r){return x+(Number(r.jumlah)||0);},0);return{tanggal:t,total_omzet:om,total_order:n,lunas:lunas,belum_lunas:bl,kas_masuk:pays};}
-if(!p.customer_id)throw new Error('customer_id wajib');if(!p.items||!p.items.length)throw new Error('items kosong');
-var sm=svcMap(),total=0,estMax=0,lines=[];
-for(var i=0;i<p.items.length;i++){var it=p.items[i],s=sm[String(it.service_id)];if(!s)throw new Error('Service? '+it.service_id);var qty=Number(it.qty)||0;if(qty<=0)throw new Error('Qty>0');var pr=Number(s.harga)||0;total+=pr*qty;estMax=Math.max(estMax,Number(s.estimasi_hari)||2);lines.push([null,String(it.service_id),qty,pr,pr*qty]);}
-var oid=nextOrderId(),dp=Number(p.bayar_dp)||0,metode=p.metode||'Cash',tgl=todayStr();
-var est=new Date();est.setDate(est.getDate()+estMax);
-var estStr=Utilities.formatDate(est,Session.getScriptTimeZone()||'Asia/Jakarta','yyyy-MM-dd');
-appendRow(SHEET_ORDERS,[oid,tgl,p.customer_id,OUTLET_DEFAULT,p.kasir||'',total,dp,total-dp,metode,'DITERIMA',estStr]);
-for(var j=0;j<lines.length;j++){lines[j][0]=oid;appendRow(SHEET_ITEMS,lines[j]);}
-appendRow(SHEET_LOGS,[Utilities.getUuid(),oid,'','DITERIMA',p.kasir||'',nowStr(),p.catatan||'Order dibuat']);
-if(dp>0)appendRow(SHEET_PAY,[Utilities.getUuid(),oid,dp,metode,tgl+' 00:00:00',p.kasir||'']);
-return{order_id:oid,total:total,sisa:total-dp,estimasi_selesai:estStr};}finally{lock.releaseLock();}}
-  return ok({order_id:d.order.order_id,status:d.order.status,estimasi_selesai:String(d.order.estimasi_selesai||''),tanggal_masuk:String(d.order.tanggal_masuk||''),logs:d.logs.map(function(l){return{ke:l.ke,timestamp:String(l.timestamp||''),catatan:String(l.catatan||'')}})});
-}
+function getOrderById(id){var a=rows(SHEET_ORDERS),o=null;for(var i=0;i<a.length;i++)if(String(a[i].order_id)===String(id))o=a[i];if(!o)return null;var f=function(n){return rows(n).filter(function(r){return String(r.order_id)===String(id);});};return{order:o,items:f(SHEET_ITEMS),logs:f(SHEET_LOGS),payments:f(SHEET_PAY)};}

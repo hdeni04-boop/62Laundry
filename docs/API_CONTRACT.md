@@ -1,29 +1,21 @@
-# API_CONTRACT.md — Code.gs Web App (1 Outlet)
+# API_CONTRACT.md — Code.gs Web App (1 Outlet + A/B/C)
 
 Base URL: `https://script.google.com/macros/s/XXXX/exec` (ganti di frontend/js/config.js)
 
 ## Format umum
-Request POST JSON: `{ "action": "namaAction", "token": "TOKEN", "payload": {...} }`
-Response: `{ "ok": true, "data": ... }` atau `{ "ok": false, "error": "..." }`
+POST JSON: `{ "action": "...", "token": "TOKEN", "payload": {...} }`
+Response: `{ "ok": true, "data": ... }` / `{ "ok": false, "error": "..." }`
 
-GET publik (tanpa token, untuk QR):
-- `?action=ping` -> `{ok:true,data:{time}}`
-- `?action=track&code=LND-...` -> detail order terbatas (tanpa nominal sensitif penuh)
+GET publik: `?action=ping`, `?action=track&code=LND-...`, `?action=waQR&code=LND-...`
 
-## Actions (butuh token kecuali ping/track)
-| action | payload | return |
-|---|---|---|
-| login | {pin} | {user:{user_id,nama,role}} + token dipakai = API_TOKEN |
-| getServices | {} | [{service_id,nama,satuan,harga,estimasi_hari}] aktif saja |
-| getCustomers | {q?} | list max 100, filter nama/WA |
-| createCustomer | {nama,wa,alamat} | {customer_id} |
-| createOrder | {customer_id, items:[{service_id,qty}], bayar_dp, metode, catatan} | {order_id,total,sisa,estimasi_selesai} |
-| listOrders | {status?, q?, limit?} | [{order_id,tanggal_masuk,customer_nama,total,sisa,status}] max 100 |
-| getOrderDetail | {order_id} | {order, items, logs, payments} |
-| updateStatus | {order_id, ke, catatan?} | {order_id, dari, ke} (validasi state-machine) |
-| addPayment | {order_id, jumlah, metode} | {payment_id, sisa} |
-| dailyOmzet | {tanggal? YYYY-MM-DD} | {tanggal, total_omzet, total_order, lunas, belum_lunas} |
+## Actions
+login, getServices, getCustomers, createCustomer, createOrder (return +wa_link +track_url),
+listOrders, getOrderDetail (return +track_url +wa_link), updateStatus (auto WA log saat SIAP_DIAMBIL/SELESAI),
+addPayment, dailyOmzet, waLink {order_id}, seedCheck, ping.
 
 ## State machine
-DITERIMA -> DICUCI -> DIKERINGKAN -> DISETRIKA -> SIAP_DIAMBIL -> SELESAI
-DIBATALKAN dari mana saja kecuali SELESAI. DIBATALKAN = terminal.
+DITERIMA -> DICUCI -> DIKERINGKAN -> DISETRIKA -> SIAP_DIAMBIL -> SELESAI; DIBATALKAN terminal kecuali dari SELESAI.
+
+## Script Properties
+API_TOKEN, SPREADSHEET_ID, TRACK_BASE (untuk QR nota B), WA_MODE=LINK/FONNTE, FONNTE_TOKEN (opsional C).
+Jalankan seedLaundry() sekali untuk A.

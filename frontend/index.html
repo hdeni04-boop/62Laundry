@@ -14,6 +14,7 @@
 <div id="toast"></div>
 <script src="js/config.js"></script>
 <script src="js/api.js"></script>
+<script src="js/struk.js"></script>
 <script src="js/pos.js"></script>
 <script src="js/orders.js"></script>
 <script src="js/tracking.js"></script>
@@ -22,9 +23,9 @@
 var routes={'#/pos':POS.render,'#/orders':Orders.render,'#/tracking':Tracking.render,'#/laporan':Laporan.render};
 function router(){var h=location.hash||'#/pos';if(!localStorage.getItem('laundry_user')&&h!=='#/tracking'){return Login.render();}(routes[h]||POS.render)();}
 window.addEventListener('hashchange',router);
-var Login={render:function(){document.getElementById('app').innerHTML='<section class=card style=max-width:360px;margin:40px auto><h2>Login Kasir</h2><input id=pin type=password inputmode=numeric placeholder=PIN><button id=btnLogin>Login</button></section>';document.getElementById('btnLogin').onclick=function(){var pin=document.getElementById('pin').value;Api.call('login',{pin:pin},true).then(function(r){localStorage.setItem('laundry_user',JSON.stringify(r.user));location.hash='#/pos';router();}).catch(function(e){toast(e.message)});}}};
+var Login={render:function(){document.getElementById('app').innerHTML='<section class=card style=max-width:360px;margin:40px auto><h2>Login Kasir</h2><input id=pin type=password inputmode=numeric placeholder=PIN><button id=btnLogin>Login</button><p class=muted>Owner 123456 / Kasir 1111 (seed awal)</p></section>';document.getElementById('btnLogin').onclick=function(){var pin=document.getElementById('pin').value;Api.call('login',{pin:pin},true).then(function(r){localStorage.setItem('laundry_user',JSON.stringify(r.user));location.hash='#/pos';router();}).catch(function(e){toast(e.message)});}}};
 document.getElementById('btnLogout').onclick=function(){localStorage.clear();location.hash='#/tracking';router();};
-function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},2500);}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='show';setTimeout(function(){t.className=''},3000);}
 function rupiah(n){return 'Rp'+Number(n||0).toLocaleString('id-ID');}
 router();
 </script>
