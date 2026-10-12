@@ -21,7 +21,7 @@
 <script src="js/laporan.js"></script>
 <script>
 var routes={'#/pos':POS.render,'#/orders':Orders.render,'#/tracking':Tracking.render,'#/laporan':Laporan.render};
-function router(){var h=location.hash||'#/pos';if(!localStorage.getItem('laundry_user')&&h!=='#/tracking'){return Login.render();}(routes[h]||POS.render)();}
+function router(){var h=location.hash||'#/pos';var code=new URLSearchParams(location.search).get('code');if(code)h='#/tracking';if(!localStorage.getItem('laundry_user')&&h!=='#/tracking'){return Login.render();}(routes[h]||POS.render)();}
 window.addEventListener('hashchange',router);
 var Login={render:function(){document.getElementById('app').innerHTML='<section class=card style=max-width:360px;margin:40px auto><h2>Login Kasir</h2><input id=pin type=password inputmode=numeric placeholder=PIN><button id=btnLogin>Login</button><p class=muted>Owner 123456 / Kasir 1111 (seed awal)</p></section>';document.getElementById('btnLogin').onclick=function(){var pin=document.getElementById('pin').value;Api.call('login',{pin:pin},true).then(function(r){localStorage.setItem('laundry_user',JSON.stringify(r.user));location.hash='#/pos';router();}).catch(function(e){toast(e.message)});}}};
 document.getElementById('btnLogout').onclick=function(){localStorage.clear();location.hash='#/tracking';router();};
