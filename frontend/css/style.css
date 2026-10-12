@@ -36,6 +36,10 @@ background:color-mix(in srgb,var(--card) 78%,transparent);backdrop-filter:blur(1
 .iconbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:38px;height:38px;padding:0 10px;
 background:var(--card);border:1px solid var(--bd);border-radius:12px;color:var(--ink);cursor:pointer;font-size:13px;font-weight:600;transition:.18s}
 .iconbtn:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+/* topbar tools: flat & ringkas (tidak jadi kartu putih mencolok) */
+.tools .iconbtn{background:transparent;border-color:transparent;color:var(--mut);box-shadow:none;min-width:34px;height:34px;padding:0 7px;border-radius:10px}
+.tools .iconbtn:hover{transform:none;box-shadow:none;background:var(--bg);color:var(--ink)}
+.tools .iconbtn .ic{width:19px;height:19px}
 .iconbtn .dot{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;border-radius:999px;background:var(--danger);color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;padding:0 4px}
 [data-tip]{position:relative}
 [data-tip]::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(-5px);
@@ -119,7 +123,12 @@ tbody tr:hover{background:color-mix(in srgb,var(--pri) 6%,transparent)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .empty{text-align:center;color:var(--mut);padding:26px 10px;font-size:14px}
 @media(max-width:900px){.grid4{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr}}
-@media(max-width:720px){.grid2{grid-template-columns:1fr}.brand .tag{display:none}.nav{overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav a span{display:none}.nav a{padding:9px}}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}.brand .tag{display:none}.nav{overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav a span{display:none}.nav a{padding:9px}
+.topbar{padding:8px 10px;gap:6px}.brand{font-size:15px;gap:7px}.brand .logo{width:30px;height:30px;border-radius:10px;font-size:15px}
+.tools{gap:0}.tools .iconbtn{min-width:32px;height:32px;padding:0 6px}.tools .iconbtn .ic{width:17px;height:17px}
+#toast{bottom:16px;font-size:13px;padding:10px 14px}}
+/* touch device: tooltip hover tidak berguna — sembunyikan agar tidak sesak */
+@media(hover:none){[data-tip]::after{display:none}}
 @media print{.topbar,#toast,.noprint{display:none!important}body{background:#fff}.card{border:0;box-shadow:none}.struk{width:58mm;font-family:monospace;font-size:12px}}
 
 .stat .chip.danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 10px 20px -10px rgba(239,68,68,.9)}
