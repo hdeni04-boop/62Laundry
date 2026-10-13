@@ -46,6 +46,9 @@ function actions(p,req){
     case 'createStockItem':return actCreateStockItem(pl);
     case 'stockTx':return actStockTx(pl);
     case 'stockLog':return actStockLog(pl);
+    case 'getUsers':return DB.users.filter(function(u){return u.aktif==='TRUE';}).map(function(u){return{user_id:u.user_id,nama:u.nama,role:u.role,outlet_id:u.outlet_id};});
+    case 'setKasirPin':return actSetUserPin(pl,'kasir');
+    case 'setOwnerPin':return actSetUserPin(pl,'owner');
     case 'waLink':return{link:waLinkFor(pl.order_id,req)};
     case 'seedCheck':return{users:DB.users.length,customers:DB.customers.length,services:DB.services.length,orders:DB.orders.length};
     case 'ping':return{time:now()};
@@ -59,6 +62,7 @@ function actListStock(){var n=0,t=dstr();DB.stxt.forEach(function(x){if(String(x
 function actCreateStockItem(p){if(!p.nama)throw new Error('Nama item wajib');var id='STK-'+String(DB.stock.length+1).padStart(4,'0'),awal=Number(p.stok_awal)||0;DB.stock.push({item_id:id,nama:p.nama,satuan:p.satuan||'pcs',stok_sekarang:awal,min_stok:Number(p.min_stok)||0,aktif:'TRUE'});if(awal>0)DB.stxt.push({tx_id:crypto.randomUUID(),item_id:id,jenis:'IN',qty:awal,keterangan:'Stok awal',oleh:p.oleh||'',timestamp:now(),sisa_stok:awal});return{item_id:id};}
 function actStockTx(p){var it=DB.stock.find(function(s){return s.item_id===p.item_id;});if(!it)throw new Error('Item tidak ada');var j=String(p.jenis||'').toUpperCase(),q=Number(p.qty)||0;if(j!=='IN'&&j!=='OUT')throw new Error('Jenis harus IN/OUT');if(q<=0)throw new Error('Qty>0');var sisa=j==='IN'?it.stok_sekarang+q:it.stok_sekarang-q;if(sisa<0)throw new Error('Stok kurang, sisa '+it.stok_sekarang+' '+it.satuan);it.stok_sekarang=sisa;DB.stxt.push({tx_id:crypto.randomUUID(),item_id:it.item_id,jenis:j,qty:q,keterangan:p.keterangan||'',oleh:p.oleh||'',timestamp:now(),sisa_stok:sisa});return{item_id:it.item_id,jenis:j,qty:q,sisa:sisa};}
 function actStockLog(p){p=p||{};var out=[],lim=Math.min(Number(p.limit)||25,100);for(var i=DB.stxt.length-1;i>=0&&out.length<lim;i--){var t=DB.stxt[i];if(p.item_id&&t.item_id!==p.item_id)continue;var s=DB.stock.find(function(x){return x.item_id===t.item_id;})||{};out.push({tx_id:t.tx_id,item_id:t.item_id,item_nama:s.nama||t.item_id,jenis:t.jenis,qty:t.qty,keterangan:t.keterangan,oleh:t.oleh,timestamp:t.timestamp,sisa:t.sisa_stok});}return out;}
+function actSetUserPin(p,want){var id=String(p.user_id||''),pin=String(p.pin||'');if(!id)throw new Error('user_id?');if(!/^\d{4,6}$/.test(pin))throw new Error('PIN 4-6 digit');var u=DB.users.find(function(x){return x.user_id===id&&x.aktif==='TRUE';});if(!u)throw new Error('User?');if(u.role!==want)throw new Error('Bukan '+want);u.pin=pin;DB.logs.push({log_id:crypto.randomUUID(),order_id:'',dari:'',ke:'PIN-'+want.toUpperCase()+'-RESET',oleh:p.oleh||'',timestamp:now(),catatan:'PIN diganti'});return{user_id:id,role:u.role};}
 http.createServer(function(req,res){
   var u=new URL(req.url,'http://x');
   if(u.pathname==='/exec'||u.pathname.indexOf('/exec')===0){

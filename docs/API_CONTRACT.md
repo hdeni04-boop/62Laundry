@@ -12,7 +12,14 @@ GET publik: `?action=ping`, `?action=track&code=LND-...`, `?action=waQR&code=LND
 login, getServices, getCustomers, createCustomer, createOrder (return +wa_link +track_url),
 listOrders, getOrderDetail (return +track_url +wa_link), updateStatus (auto WA log saat SIAP_DIAMBIL/SELESAI),
 addPayment, dailyOmzet, waLink {order_id}, seedCheck, ping,
-dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_counts, stats7[7 hari]} — dipakai Dasbor & grafik Laporan.
+dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_counts, stats7[7 hari]},
+
+## Pengaturan user (owner only)
+| action | payload | return |
+|---|---|---|
+| getUsers | {} | [{user_id,nama,role,outlet_id}] — hanya akun aktif, tanpa PIN |
+| setKasirPin | {user_id, pin(4-6 digit), oleh} | {user_id, role} — user harus role kasir |
+| setOwnerPin | {user_id, pin(4-6 digit), oleh} | {user_id, role} — user harus role owner |
 
 ## Stok (kebutuhan laundry)
 | action | payload | return |
