@@ -60,6 +60,13 @@ Baris 1 = header (beku / Freeze). Jangan ubah urutan kolom.
 |---|---|---|---|---|---|---|---|
 - `jenis`: IN / OUT. OUT tidak boleh melebihi stok (validasi backend + LockService).
 
+## 11. Expenses (Pengeluaran & Laba Bersih)
+| expense_id | tanggal | kategori | keterangan | jumlah | oleh | timestamp |
+|---|---|---|---|---|---|---|
+- `expense_id` format `EXP-0001` (auto). `jumlah` dalam Rupiah.
+- `kategori`: Deterjen & Pewangi / Listrik & Air / Gaji Karyawan / Sewa Tempat / Perawatan Mesin / Plastik & Kemasan / Lain-lain.
+- `Laba Bersih = total omzet − total pengeluaran` (dihitung backend di `dailyOmzet` & `dashboard`).
+
 ## Aturan
 1. Aktifkan Data Validation untuk Orders.status & Orders.metode.
 2. Freeze baris 1 di semua sheet.

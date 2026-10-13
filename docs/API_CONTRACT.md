@@ -29,6 +29,14 @@ dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_cou
 | stockTx | {item_id, jenis:IN/OUT, qty, keterangan, oleh} | {item_id,jenis,qty,sisa} — tolak jika OUT > stok |
 | stockLog | {item_id?, limit?} | [{tx_id,item_nama,jenis,qty,keterangan,oleh,timestamp,sisa}] max 100 |
 
+## Pengeluaran (Expenses) & Laba Bersih
+| action | payload | return |
+|---|---|---|
+| addExpense | {kategori, jumlah, keterangan?, oleh, tanggal?} | {expense_id (EXP-0001), tanggal, jumlah, kategori} — jumlah wajib > 0 |
+| listExpenses | {tanggal?, limit?} | {tanggal, pengeluaran_hari_ini, pengeluaran_bulan_ini, items:[{expense_id,tanggal,kategori,keterangan,jumlah,oleh,timestamp}]} |
+
+`dailyOmzet` & `dashboard` kini juga mengembalikan `pengeluaran` dan `laba_bersih` (= total_omzet/omzet_hari_ini − pengeluaran). Kategori: Deterjen & Pewangi / Listrik & Air / Gaji Karyawan / Sewa Tempat / Perawatan Mesin / Plastik & Kemasan / Lain-lain.
+
 ## State machine
 DITERIMA -> DICUCI -> DIKERINGKAN -> DISETRIKA -> SIAP_DIAMBIL -> SELESAI; DIBATALKAN terminal kecuali dari SELESAI.
 
