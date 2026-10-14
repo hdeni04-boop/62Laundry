@@ -35,6 +35,13 @@ dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_cou
 | addExpense | {kategori, jumlah, keterangan?, oleh, tanggal?} | {expense_id (EXP-0001), tanggal, jumlah, kategori} — jumlah wajib > 0 |
 | listExpenses | {tanggal?, limit?} | {tanggal, pengeluaran_hari_ini, pengeluaran_bulan_ini, items:[{expense_id,tanggal,kategori,keterangan,jumlah,oleh,timestamp}]} |
 
+## Rekap Bulanan & Export CSV
+| action | payload | return |
+|---|---|---|
+| monthlyReport | {bulan: "YYYY-MM"} (default bulan berjalan) | {bulan, total_omzet, total_order, lunas, belum_lunas, kas_masuk, pengeluaran, laba_bersih, days:[{tanggal, total_omzet, total_order, pengeluaran, laba_bersih}]} — days = 1 baris per hari dalam bulan; format bulan divalidasi (`Format bulan YYYY-MM` jika salah) |
+
+Frontend `#/laporan` menampilkan rekap bulanan (KPI + tabel harian) dan tombol **Export CSV** → unduh `laporan-YYYY-MM-62laundry.csv` (BOM UTF-8, siap Excel). CSV dibangun dari data `monthlyReport` yang sudah dimuat.
+
 `dailyOmzet` & `dashboard` kini juga mengembalikan `pengeluaran` dan `laba_bersih` (= total_omzet/omzet_hari_ini − pengeluaran). Kategori: Deterjen & Pewangi / Listrik & Air / Gaji Karyawan / Sewa Tempat / Perawatan Mesin / Plastik & Kemasan / Lain-lain.
 
 ## State machine
