@@ -4,21 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>+62Laundry — Kasir & Manajemen</title>
+    <title>+62Laundry</title>
     <link rel="stylesheet" href="css/style.css">
     <script>try { var t = localStorage.getItem('laundry_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) { }</script>
 </head>
 
 <body>
     <header class="topbar">
-        <div class="brand"><span class="logo"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3.5"/><path d="M4 8.5h16"/><circle cx="7.4" cy="5.75" r="1" fill="currentColor" stroke="none"/><circle cx="10.6" cy="5.75" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="14.9" r="4.3"/><path d="M8.9 14.9c1.05-.9 2.1.9 3.15 0s2.1.9 3.15 0"/></svg></span>+62Laundry</div>
+        <div class="brand"><span class="logo"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="4" y="3" width="16" height="18" rx="3.5" />
+                    <path d="M4 8.5h16" />
+                    <circle cx="7.4" cy="5.75" r="1" fill="currentColor" stroke="none" />
+                    <circle cx="10.6" cy="5.75" r="1" fill="currentColor" stroke="none" />
+                    <circle cx="12" cy="14.9" r="4.3" />
+                    <path d="M8.9 14.9c1.05-.9 2.1.9 3.15 0s2.1.9 3.15 0" />
+                </svg></span>+62Laundry</div>
         <nav class="nav" id="mainNav">
             <a href="#/dashboard" data-tip="Ringkasan omzet & pesanan hari ini"><b
                     class="ni"></b><span>Dasbor</span></a>
             <a href="#/pos" data-tip="Kasir: buat order baru"><b class="ni"></b><span>POS</span></a>
             <a href="#/orders" data-tip="Daftar & update status pesanan"><b class="ni"></b><span>Pesanan</span></a>
             <a href="#/customers" data-tip="Data pelanggan"><b class="ni"></b><span>Pelanggan</span></a>
-            <a href="#/expenses" data-tip="Catat pengeluaran &amp; laba bersih"><b class="ni"></b><span>Pengeluaran</span></a>
+            <a href="#/expenses" data-tip="Catat pengeluaran &amp; laba bersih"><b
+                    class="ni"></b><span>Pengeluaran</span></a>
             <a href="#/stock" data-tip="Stok masuk/keluar kebutuhan laundry"><b class="ni"></b><span>Stok</span></a>
             <a href="#/settings" data-tip="Pengaturan PIN kasir & pemilik"><b class="ni"></b><span>Setting</span></a>
             <a href="#/tracking" data-tip="Lacak pesanan via nota (publik)"><b class="ni"></b><span>Lacak</span></a>
@@ -27,16 +36,31 @@
         </nav>
         <div class="tools">
             <button class="iconbtn" id="btnBell" data-tip="Pesanan siap diambil (klik utk filter)"
-                aria-label="Notifikasi"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 4.5 1.5 6 1.5 6h-15S6 13.5 6 9z"/><path d="M10.5 19a1.8 1.8 0 0 0 3 0"/></svg><span class="dot" id="bellCount" style="display:none">0</span></button>
-            <button class="iconbtn" id="btnTheme" data-tip="Mode gelap / terang" aria-label="Ganti tema"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button>
-            <button class="iconbtn" id="btnLogout" data-tip="Keluar dari sesi" aria-label="Keluar"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8"/><path d="M17 8l4 4-4 4"/><path d="M21 12H10"/></svg></button>
+                aria-label="Notifikasi"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 9a6 6 0 1 1 12 0c0 4.5 1.5 6 1.5 6h-15S6 13.5 6 9z" />
+                    <path d="M10.5 19a1.8 1.8 0 0 0 3 0" />
+                </svg><span class="dot" id="bellCount" style="display:none">0</span></button>
+            <button class="iconbtn" id="btnTheme" data-tip="Mode gelap / terang" aria-label="Ganti tema"><svg class="ic"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" />
+                </svg></button>
+            <button class="iconbtn" id="btnLogout" data-tip="Keluar dari sesi" aria-label="Keluar"><svg class="ic"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <path d="M14 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8" />
+                    <path d="M17 8l4 4-4 4" />
+                    <path d="M21 12H10" />
+                </svg></button>
         </div>
     </header>
     <main id="app"></main>
     <footer class="foot">
         <div class="foot-in">
             <div><b>+62 LAUNDRY</b> — © 2026 Hak Cipta Dilindungi Undang-Undang</div>
-            <div><a href="https://wa.me/6282115261194" target="_blank" rel="noopener">Hubungi Kami</a> · <a href="#">Kebijakan Privasi</a> · <a href="#">Syarat &amp; Ketentuan</a></div>
+            <div><a href="https://wa.me/6282115261194" target="_blank" rel="noopener">Hubungi Kami</a> · <a
+                    href="#">Kebijakan Privasi</a> · <a href="#">Syarat &amp; Ketentuan</a></div>
         </div>
     </footer>
     <div id="toast"></div>
@@ -49,13 +73,13 @@
     <script src="js/orders.js"></script>
     <script src="js/customers.js"></script>
     <script src="js/stock.js"></script>
-<script src="js/expenses.js"></script>
-<script src="js/settings.js"></script>
+    <script src="js/expenses.js"></script>
+    <script src="js/settings.js"></script>
     <script src="js/help.js"></script>
     <script src="js/tracking.js"></script>
     <script src="js/laporan.js"></script>
     <script>
-        var NAV_ICONS = { dashboard: 'home', pos: 'cart', orders: 'clipboard', customers: 'users', stock: 'box', expenses:'money', settings: 'settings', tracking: 'pin', laporan: 'chart', help: 'help' };
+        var NAV_ICONS = { dashboard: 'home', pos: 'cart', orders: 'clipboard', customers: 'users', stock: 'box', expenses: 'money', settings: 'settings', tracking: 'pin', laporan: 'chart', help: 'help' };
         document.querySelectorAll('#mainNav a').forEach(function (a) { var k = a.getAttribute('href').slice(2); a.querySelector('.ni').innerHTML = ic(NAV_ICONS[k] || 'dot'); });
         /* head action icons + brand logo tersedia inline di HTML (progressive enhancement) */
         var routes = { '#/dashboard': Dashboard.render, '#/pos': POS.render, '#/orders': Orders.render, '#/customers': Customers.render, '#/stock': Stock.render, '#/expenses': Expenses.render, '#/settings': Settings.render, '#/tracking': Tracking.render, '#/laporan': Laporan.render, '#/help': Help.render };
