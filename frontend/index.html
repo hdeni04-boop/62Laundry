@@ -12,36 +12,35 @@
 
 <body>
     <header class="topbar">
-        <div class="brand"><span class="logo logoimg logoimg-wide"><img src="img/logo.svg" alt="Logo +62Laundry"></span></div>
+        <div class="brand"><span class="logo logoimg logoimg-wide"><img src="img/logo.svg" alt="Logo +62Laundry"></span>
+        </div>
         <nav class="nav" id="mainNav">
-            <a href="#/dashboard" data-tip="Ringkasan omzet & pesanan hari ini"><b
-                    class="ni"></b><span>Dasbor</span></a>
-            <a href="#/pos" data-tip="Kasir: buat order baru"><b class="ni"></b><span>POS</span></a>
-            <a href="#/orders" data-tip="Daftar & update status pesanan"><b class="ni"></b><span>Pesanan</span></a>
-            <a href="#/customers" data-tip="Data pelanggan"><b class="ni"></b><span>Pelanggan</span></a>
-            <a href="#/expenses" data-tip="Catat pengeluaran &amp; laba bersih"><b
-                    class="ni"></b><span>Pengeluaran</span></a>
-            <a href="#/stock" data-tip="Stok masuk/keluar kebutuhan laundry"><b class="ni"></b><span>Stok</span></a>
-            <a href="#/settings" data-tip="Pengaturan PIN kasir & pemilik"><b class="ni"></b><span>Setting</span></a>
-            <a href="#/tracking" data-tip="Lacak pesanan via nota (publik)"><b class="ni"></b><span>Lacak</span></a>
-            <a href="#/laporan" data-tip="Omzet harian & grafik"><b class="ni"></b><span>Laporan</span></a>
-            <a href="#/help" data-tip="Bantuan, FAQ & kontak pengembang"><b class="ni"></b><span>Bantuan</span></a>
+            <a href="#/dashboard"><b class="ni"></b><span>Dasbor</span></a>
+            <a href="#/pos"><b class="ni"></b><span>POS</span></a>
+            <a href="#/orders"><b class="ni"></b><span>Pesanan</span></a>
+            <a href="#/customers"><b class="ni"></b><span>Pelanggan</span></a>
+            <a href="#/expenses"><b class="ni"></b><span>Pengeluaran</span></a>
+            <a href="#/stock"><b class="ni"></b><span>Stok</span></a>
+            <a href="#/settings"><b class="ni"></b><span>Setting</span></a>
+            <a href="#/tracking"><b class="ni"></b><span>Lacak</span></a>
+            <a href="#/laporan"><b class="ni"></b><span>Laporan</span></a>
+            <a href="#/help"><b class="ni"></b><span>Bantuan</span></a>
         </nav>
         <div class="tools">
-            <button class="iconbtn" id="btnBell" data-tip="Pesanan siap diambil (klik utk filter)"
-                aria-label="Notifikasi"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <button class="iconbtn" id="btnBell" aria-label="Notifikasi"><svg class="ic" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
                     <path d="M6 9a6 6 0 1 1 12 0c0 4.5 1.5 6 1.5 6h-15S6 13.5 6 9z" />
                     <path d="M10.5 19a1.8 1.8 0 0 0 3 0" />
                 </svg><span class="dot" id="bellCount" style="display:none">0</span></button>
-            <button class="iconbtn" id="btnTheme" data-tip="Mode gelap / terang" aria-label="Ganti tema"><svg class="ic"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                    stroke-linejoin="round" aria-hidden="true">
+            <button class="iconbtn" id="btnTheme" aria-label="Ganti tema"><svg class="ic" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
                     <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" />
                 </svg></button>
-            <button class="iconbtn" id="btnLogout" data-tip="Keluar dari sesi" aria-label="Keluar"><svg class="ic"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                    stroke-linejoin="round" aria-hidden="true">
+            <button class="iconbtn" id="btnLogout" aria-label="Keluar"><svg class="ic" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
                     <path d="M14 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8" />
                     <path d="M17 8l4 4-4 4" />
                     <path d="M21 12H10" />
@@ -52,8 +51,8 @@
     <footer class="foot">
         <div class="foot-in">
             <div><b>+62 LAUNDRY</b> — © 2026 Hak Cipta Dilindungi Undang-Undang</div>
-            <div><a href="https://wa.me/6282115261194" target="_blank" rel="noopener">Hubungi Kami</a> · <a
-                    href="#" onclick="return legal('priv')">Kebijakan Privasi</a> · <a href="#"
+            <div><a href="https://wa.me/6282115261194" target="_blank" rel="noopener">Hubungi Kami</a> · <a href="#"
+                    onclick="return legal('priv')">Kebijakan Privasi</a> · <a href="#"
                     onclick="return legal('terms')">Syarat &amp; Ketentuan</a></div>
         </div>
     </footer>
@@ -101,7 +100,7 @@
         document.getElementById('legalOvl').onclick = function (e) { if (e.target === this) legalClose(); };
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') legalClose(); });
         function rupiah(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
-        var _th = document.getElementById('btnTheme'); function paintTheme() { var d = document.documentElement.getAttribute('data-theme') === 'dark'; _th.innerHTML = d ? ic('sun') : ic('moon'); _th.setAttribute('data-tip', d ? 'Mode terang' : 'Mode gelap'); }
+        var _th = document.getElementById('btnTheme'); function paintTheme() { var d = document.documentElement.getAttribute('data-theme') === 'dark'; _th.innerHTML = d ? ic('sun') : ic('moon'); }
         _th.onclick = function () { var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('laundry_theme', n); paintTheme(); };
         document.getElementById('btnLogout').onclick = function () { localStorage.clear(); location.hash = '#/tracking'; clearInterval(window._bell); router(); };
         document.getElementById('btnBell').onclick = function () { sessionStorage.setItem('ordSt', 'SIAP_DIAMBIL'); location.hash = '#/orders'; if (location.hash === '#/orders') router(); };
