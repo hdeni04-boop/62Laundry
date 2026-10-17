@@ -19,6 +19,9 @@
 ### Deploy ke Vercel
 Konfigurasi `vercel.json` di root mengarahkan Vercel untuk menyajikan folder `frontend` sebagai situs statis. Hubungkan repository ke Vercel dengan Root Directory tetap di root repository, lalu deploy. Jangan set Root Directory ke `frontend`, karena konfigurasi Vercel berada di root.
 
+### Mode Demo (tanpa backend — untuk pratinjau di Vercel)
+Buka `https://<app-anda>.vercel.app/?demo=1` → login PIN `1111`/`123456` langsung masuk **tanpa backend**. Cocok untuk demo tampilan. Catatan: hanya login yang offline; menu yang butuh data (POS, Pesanan, dsb) tetap memerlukan backend. Untuk operasional penuh, selesaikan langkah 2 (Deploy Apps Script) lalu isi URL `/exec` di `frontend/js/config.js` dan redeploy.
+
 ## 4. Operasional
 - Ganti PIN owner setelah go-live. Rotasi API_TOKEN berkala.
 - Backup: File > Make a copy mingguan. Arsip Orders per bulan jika >5000 baris.
