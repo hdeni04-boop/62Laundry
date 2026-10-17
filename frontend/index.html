@@ -53,9 +53,16 @@
         <div class="foot-in">
             <div><b>+62 LAUNDRY</b> — © 2026 Hak Cipta Dilindungi Undang-Undang</div>
             <div><a href="https://wa.me/6282115261194" target="_blank" rel="noopener">Hubungi Kami</a> · <a
-                    href="#">Kebijakan Privasi</a> · <a href="#">Syarat &amp; Ketentuan</a></div>
+                    href="#" onclick="return legal('priv')">Kebijakan Privasi</a> · <a href="#"
+                    onclick="return legal('terms')">Syarat &amp; Ketentuan</a></div>
         </div>
     </footer>
+    <div class="ovl" id="legalOvl">
+        <div class="modal" role="dialog" aria-modal="true">
+            <h3><span id="legalTitle"></span><button onclick="legalClose()" aria-label="Tutup">✕</button></h3>
+            <div id="legalBody"></div>
+        </div>
+    </div>
     <div id="toast"></div>
     <script src="js/config.js"></script>
     <script src="js/api.js"></script>
@@ -81,6 +88,18 @@
         window.addEventListener('hashchange', router);
         var Login = { render: function () { document.getElementById('app').innerHTML = '<section class="card login"><div class="logo"><span style="display:block;transform:scale(1.6)">' + ic('washer', 'lg') + '</span></div><h2 style="margin:0">+62Laundry</h2><p class="mut">Kasir & Manajemen — OUT-01</p><input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••"><button class="btn" id="btnLogin">Masuk ' + ic('arrow') + '</button><div class="demo"><button class="chip" data-pin="1111">' + ic('user') + ' Kasir 1111</button><button class="chip" data-pin="123456">' + ic('star') + ' Owner 123456</button></div></section>'; document.querySelectorAll('[data-pin]').forEach(function (b) { b.onclick = function () { document.getElementById('pin').value = b.dataset.pin; }; }); document.getElementById('btnLogin').onclick = function () { Api.call('login', { pin: document.getElementById('pin').value }, true).then(function (r) { localStorage.setItem('laundry_user', JSON.stringify(r.user)); location.hash = '#/dashboard'; router(); startBell(); }).catch(function (e) { toast(e.message, false); }); }; } };
         function toast(m, ok) { var t = document.getElementById('toast'); t.innerHTML = (ok === false ? ic('alert') : ic('check')) + '<span>' + m + '</span>'; t.className = 'show' + (ok === false ? ' err' : ''); clearTimeout(window._tt); window._tt = setTimeout(function () { t.className = ''; }, 3200); }
+        var LEGAL = {
+            priv: {
+                t: 'Kebijakan Privasi — +62Laundry', b: '<p>Privasi pelanggan kami jaga dengan serius. Ringkasannya:</p><ol><li><b>Data yang disimpan:</b> nama, nomor WA, dan alamat — hanya untuk keperluan operasional (nota, status cucian, notifikasi pengambilan).</li><li><b>Tidak dibagikan:</b> data pelanggan tidak dijual atau dibagikan ke pihak ketiga tanpa persetujuan, kecuali diwajibkan hukum.</li><li><b>Sesi kasir:</b> PIN login tersimpan lokal di perangkat kasir; selalu logout setelah selesai bertugas.</li><li><b>Foto/struk:</b> struk digital hanya dibagikan ke nomor WA pemilik order.</li><li><b>Permintaan hapus data:</b> hubungi kami via tombol Hubungi Kami di footer.</li></ol>'
+            },
+            terms: {
+                t: 'Syarat & Ketentuan — +62Laundry', b: '<p>Dengan menggunakan layanan +62Laundry (OUT-01), pelanggan menyetujui:</p><ol><li><b>Estimasi selesai</b> tertera pada nota; keterlambatan akibat force majeure akan diinformasikan via WA.</li><li><b>Pembayaran:</b> lunasi sebelum pengambilan kecuali ada kesepakatan tempo; sisa bayar tampil di halaman lacak.</li><li><b>Pengambilan:</b> harap diambil maksimal 30 hari setelah SIAP DIAMBIL; lewat dari itu bukan tanggung jawab kami atas susut/rusak simpan.</li><li><b>Komplain:</b> maksimal 1×24 jam setelah pengambilan dengan menunjukkan nota.</li><li><b>Pembatalan:</b> order DIBATALKAN sebelum proses cuci dikembalikan penuh; setelah diproses mengikuti kebijakan outlet.</li></ol>'
+            }
+        };
+        function legal(k) { var d = LEGAL[k]; if (!d) return false; document.getElementById('legalTitle').textContent = d.t; document.getElementById('legalBody').innerHTML = d.b; document.getElementById('legalOvl').className = 'ovl show'; return false; }
+        function legalClose() { document.getElementById('legalOvl').className = 'ovl'; }
+        document.getElementById('legalOvl').onclick = function (e) { if (e.target === this) legalClose(); };
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') legalClose(); });
         function rupiah(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
         var _th = document.getElementById('btnTheme'); function paintTheme() { var d = document.documentElement.getAttribute('data-theme') === 'dark'; _th.innerHTML = d ? ic('sun') : ic('moon'); _th.setAttribute('data-tip', d ? 'Mode terang' : 'Mode gelap'); }
         _th.onclick = function () { var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('laundry_theme', n); paintTheme(); };
