@@ -18,8 +18,8 @@ dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_cou
 | action | payload | return |
 |---|---|---|
 | getUsers | {} | [{user_id,nama,role,outlet_id}] — hanya akun aktif, tanpa PIN |
-| setKasirPin | {user_id, pin(4-6 digit), oleh} | {user_id, role} — user harus role kasir |
-| setOwnerPin | {user_id, pin(4-6 digit), oleh} | {user_id, role} — user harus role owner |
+| setKasirPin | {user_id, pin (4-32 karakter), oleh} | {user_id, role} — user harus role kasir |
+| setOwnerPin | {user_id, pin (4-32 karakter), oleh} | {user_id, role} — user harus role owner |
 
 ## Stok (kebutuhan laundry)
 | action | payload | return |

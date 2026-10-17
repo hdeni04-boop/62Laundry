@@ -6,9 +6,9 @@ var Api={
   demo:function(){try{return new URLSearchParams(location.search).get('demo')==='1';}catch(e){return false;}},
   demoLogin:function(pin){
     pin=String(pin||'').trim();
-    var users={'1111':{user_id:'USR-02',nama:'Kasir 1 (Demo)',role:'kasir'},'123456':{user_id:'USR-01',nama:'Owner (Demo)',role:'owner'}};
+    var users={'1111':{user_id:'USR-02',nama:'Kasir 1 (Demo)',role:'kasir'},'123123@':{user_id:'USR-01',nama:'Owner (Demo)',role:'owner'}};
     var u=users[pin];
-    if(!u)throw new Error('PIN salah (mode demo: gunakan 1111 atau 123456)');
+    if(!u)throw new Error('PIN salah');
     return{token:'DEMO',user:u};
   },
   netErr:function(e){return (e instanceof TypeError)||/failed to fetch|networkerror|load failed|network request failed/i.test(String((e&&e.message)||''));},

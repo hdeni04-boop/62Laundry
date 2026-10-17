@@ -7,7 +7,7 @@ Cara tercepat: buka Apps Script > jalankan fungsi `seedLaundry()` sekali > semua
 ### Users (header + 2 baris)
 ```
 user_id	nama	pin	role	outlet_id	aktif
-USR-01	Owner	123456	owner	OUT-01	TRUE
+USR-01	Owner	123123@	owner	OUT-01	TRUE
 USR-02	Kasir 1	1111	kasir	OUT-01	TRUE
 ```
 

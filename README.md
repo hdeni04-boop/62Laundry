@@ -23,7 +23,7 @@ Stack: Spreadsheet (DB) + Apps Script Code.gs (Backend) + HTML/CSS/JS Murni (Fro
 
 ## Jalankan (tanpa deploy Apps Script — mock lokal)
 1. `npm start` (atau `node tools/mock-server.js`) → buka **http://localhost:8080**
-2. Login PIN `1111` (kasir) atau `123456` (owner) → POS → order → struk+QR → update status → WA.
+2. Login dengan PIN kasir/owner → POS → order → struk+QR → update status → WA.
 3. `config.js` otomatis memakai `/exec` lokal di localhost; setelah deploy Apps Script, URL produksi dipakai di domain lain.
 
 ## Jalankan produksi
@@ -32,4 +32,4 @@ Stack: Spreadsheet (DB) + Apps Script Code.gs (Backend) + HTML/CSS/JS Murni (Fro
 3. Untuk Vercel, hubungkan repo dengan Root Directory di root; `vercel.json` menyajikan folder `frontend` sebagai situs statis.
 
 ## Akun contoh
-- Owner PIN 123456, Kasir PIN 1111 (ganti setelah deploy).
+- Kasir PIN 1111, Owner PIN sesuai seed `seedLaundry()` (ganti setelah deploy via menu Setting).
