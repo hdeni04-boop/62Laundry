@@ -50,7 +50,7 @@ function actions(p,req){
     case 'setKasirPin':return actSetUserPin(pl,'kasir');
     case 'setOwnerPin':return actSetUserPin(pl,'owner');
     case 'waLink':return{link:waLinkFor(pl.order_id,req)};
-    case 'seedCheck':return{users:DB.users.length,customers:DB.customers.length,services:DB.services.length,orders:DB.orders.length};
+    case 'seedCheck':return{users:DB.users.length,customers:DB.customers.length,services:DB.services.length,orders:DB.orders.length,exp:DB.exp.length};
     case 'ping':return{time:now()};
     case 'addExpense':return actAddExpense(pl);case 'listExpenses':return actListExpenses(pl);case 'monthlyReport':return actMonthlyReport(pl);default:throw new Error('Unknown: '+a);
   }
