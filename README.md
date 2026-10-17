@@ -29,6 +29,7 @@ Stack: Spreadsheet (DB) + Apps Script Code.gs (Backend) + HTML/CSS/JS Murni (Fro
 ## Jalankan produksi
 1. Ikuti `docs/DEPLOY.md`.
 2. Frontend tanpa build — cukup Live Server / hosting statis.
+3. Untuk Vercel, hubungkan repo dengan Root Directory di root; `vercel.json` menyajikan folder `frontend` sebagai situs statis.
 
 ## Akun contoh
 - Owner PIN 123456, Kasir PIN 1111 (ganti setelah deploy).

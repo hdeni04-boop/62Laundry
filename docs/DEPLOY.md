@@ -16,6 +16,9 @@
 2. Buka via Live Server / hosting statis. Login PIN (cth 1111).
 3. Alur uji: buat customer (manual tambah sheet dulu) > POS > buat order > Orders > update status > cetak struk > tracking `?code=LND-...`.
 
+### Deploy ke Vercel
+Konfigurasi `vercel.json` di root mengarahkan Vercel untuk menyajikan folder `frontend` sebagai situs statis. Hubungkan repository ke Vercel dengan Root Directory tetap di root repository, lalu deploy. Jangan set Root Directory ke `frontend`, karena konfigurasi Vercel berada di root.
+
 ## 4. Operasional
 - Ganti PIN owner setelah go-live. Rotasi API_TOKEN berkala.
 - Backup: File > Make a copy mingguan. Arsip Orders per bulan jika >5000 baris.
