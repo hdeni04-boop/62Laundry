@@ -3012,3 +3012,13 @@ table td {
     font-size: 9px;
   }
 }
+
+@media (min-width: 721px) {
+  .bottomnav {
+    display: none;
+  }
+
+  body:not(.view-auth) {
+    padding-bottom: 0;
+  }
+}
