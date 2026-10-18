@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="380" viewBox="0 0 420 380" fill="none">
+  <g stroke="#fff" stroke-linecap="round" stroke-linejoin="round" opacity=".28">
+    <g stroke-width="2.2">
+      <path d="M51 43c9-8 24-8 33 0l-5 11-7-3v28H63V51l-7 3-5-11Z"/>
+      <path d="M65 80v8m9-8v8m-18-34 9 6 9-6"/>
+      <path d="M183 34h44m-22 0v11m-18 0h36"/>
+      <path d="M195 45c0 8-10 9-10 18v8m30-26c0 8 10 9 10 18v8"/>
+      <path d="M185 71c8 5 24 5 32 0l-5 32c-6 6-16 6-22 0l-5-32Z"/>
+      <path d="m192 81 9 5 9-5m-15 18h12"/>
+      <path d="M322 49c0-12 18-12 18 0l22 18c-6 8-14 8-21 2l-10-7-10 7c-7 6-15 6-21-2l22-18Z"/>
+      <path d="M331 49v-8"/>
+      <rect x="48" y="163" width="68" height="62" rx="14"/>
+      <circle cx="82" cy="192" r="19"/>
+      <circle cx="82" cy="192" r="12"/>
+      <path d="M57 174h3m8 0h3m32 0h5M64 214h36"/>
+      <path d="M193 154h37l7 54h-51l7-54Z"/>
+      <path d="M198 154v-9h27v9m-22 13h17m-22 8h27"/>
+      <path d="M204 184c-4 5-2 12 4 14m12-15c5 5 4 12-2 15"/>
+      <path d="m310 177 12 6 12-6 12 15-9 7-5-5v31h-20v-31l-5 5-9-7 12-15Z"/>
+      <path d="m322 183 7 6 7-6m-17 29h13"/>
+      <path d="M58 284h64l-7 44H65l-7-44Z"/>
+      <path d="M54 284c4-7 12-7 16 0m20 0c4-7 12-7 16 0"/>
+      <path d="M71 301c6-5 12-5 18 0l-4 7-4-2v13h-8v-13l-4 2-4-7Z"/>
+      <path d="m191 292 12 5 12-5 10 13-8 6-5-4v23h-18v-23l-5 4-8-6 10-13Z"/>
+      <path d="M197 297c2 7 10 7 12 0"/>
+      <path d="M315 290c0-9 14-9 14 0v7m0-7c0-9 14-9 14 0v7"/>
+      <path d="M315 297h28l-3 24c-1 8-21 8-22 0l-3-24Z"/>
+      <path d="M320 305c5 3 13 3 18 0m-16 10c4 2 10 2 14 0"/>
+    </g>
+    <g stroke-width="1.8" opacity=".9">
+      <circle cx="145" cy="119" r="7"/><circle cx="161" cy="105" r="3"/>
+      <circle cx="268" cy="117" r="5"/><circle cx="281" cy="103" r="2.5"/>
+      <circle cx="275" cy="133" r="2"/>
+      <path d="m139 260 3 8 8 3-8 3-3 8-3-8-8-3 8-3 3-8Zm150-211 2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Z"/>
+      <path d="M151 194h7m-3-4v8m132 41h8m-4-4v8m-139 69h6m-3-3v6"/>
+      <path d="M257 294c5-5 10-5 15 0m-7-7v15"/>
+    </g>
+  </g>
+  <g fill="#bdeaff" opacity=".42">
+    <circle cx="145" cy="119" r="2"/><circle cx="161" cy="105" r="1.4"/>
+    <circle cx="268" cy="117" r="1.8"/><circle cx="275" cy="133" r="1.2"/>
+    <circle cx="151" cy="194" r="1.2"/><circle cx="288" cy="236" r="1.2"/>
+  </g>
+</svg>
