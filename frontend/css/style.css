@@ -1418,6 +1418,14 @@ table tr:last-child td {
 body.view-auth {
   background: var(--brand-bg);
 }
+body.view-auth:has(.tracking-page) {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='190' height='190' viewBox='0 0 190 190' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' opacity='.18'%3E%3Crect x='18' y='22' width='42' height='48' rx='9'/%3E%3Ccircle cx='39' cy='48' r='12'/%3E%3Ccircle cx='27' cy='32' r='1.5' fill='%23fff'/%3E%3Ccircle cx='34' cy='32' r='1.5' fill='%23fff'/%3E%3Cpath d='M119 35c0-8 12-8 12 0l20 17c-5 7-11 7-17 2l-8-6-8 6c-6 5-12 5-17-2l20-17Z'/%3E%3Ccircle cx='146' cy='94' r='7'/%3E%3Ccircle cx='128' cy='109' r='3'/%3E%3Ccircle cx='157' cy='119' r='4'/%3E%3Cpath d='m31 137 10 5 10-5 9 11-8 6-3-3v21H34v-21l-3 3-8-6 8-11Z'/%3E%3Cpath d='M107 143c7-5 14-5 21 0l-5 9-5-2v17h-12v-17l-5 2-5-9c4-3 7-3 11 0Z'/%3E%3C/svg%3E"),
+    var(--brand-bg);
+  background-repeat: repeat, no-repeat;
+  background-size: 190px 190px, cover;
+  background-attachment: fixed;
+}
 body.view-auth .topbar,
 body.view-auth .bottomnav {
   display: none;
@@ -2746,7 +2754,7 @@ table td {
 }
 
 .login .logo {
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--pri) 25%, transparent);
+  box-shadow: none;
 }
 
 .drawer {
@@ -2777,6 +2785,10 @@ table td {
 .foot {
   background: var(--card);
   border-top-color: var(--bd);
+}
+
+.foot {
+  display: none !important;
 }
 
 #toast {
