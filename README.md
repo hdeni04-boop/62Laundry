@@ -3,6 +3,9 @@
 Stack: Spreadsheet (DB) + Apps Script Code.gs (Backend) + HTML/CSS/JS Murni (Frontend).
 
 ## Fitur UI 2026
+- **Tema biru ala mobile app**: header avatar + sapaan "Hi, …", **bottom nav** (Dasbor · POS · Harga · Laporan · Lainnya) + **drawer menu** (Pesanan, Pelanggan, Pengeluaran, Stok, Daftar Harga, Lacak, Bantuan, Setting, Keluar)
+- **Daftar Harga**: halaman khusus harga layanan — **owner dapat mengganti harga custom** (langsung dipakai POS & nota)
+- **Aksi cepat** di Dasbor: Order Baru, Pesanan, Pelanggan, Harga (tile gaya aplikasi laundry)
 - **Dark/Light mode** (toggle 🌙, tersimpan di browser)
 - **Ikon SVG inline** di semua navigasi/aksi + **tooltip** (`data-tip`) penjelas singkat
 - **Dasbor KPI**: omzet hari ini, order masuk, siap diambil, belum lunas + **grafik 7 hari** + sebaran status (klik → filter pesanan)

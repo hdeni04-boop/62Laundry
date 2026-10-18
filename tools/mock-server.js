@@ -21,6 +21,7 @@ function actions(p,req){
   switch(a){
     case 'login':{var u=DB.users.find(function(x){return x.pin===String(pl.pin)&&x.aktif==='TRUE';});if(!u)throw new Error('PIN salah');return{token:TOKEN,user:{user_id:u.user_id,nama:u.nama,role:u.role}};}
     case 'getServices':return DB.services.filter(function(s){return s.aktif==='TRUE';});
+    case 'updateServicePrice':{var sid=String(pl.service_id||''),hh=Number(pl.harga);if(!sid)throw new Error('service_id?');if(!(hh>0))throw new Error('Harga harus > 0');var sv2=DB.services.find(function(s){return s.service_id===sid;});if(!sv2)throw new Error('Layanan tidak ada');sv2.harga=hh;return{service_id:sid,nama:sv2.nama,harga:hh};}
     case 'getCustomers':{var q=String(pl.q||'').toLowerCase();return DB.customers.slice(-100).reverse().filter(function(c){return !q||c.nama.toLowerCase().indexOf(q)>-1||String(c.wa).indexOf(q)>-1;});}
     case 'createCustomer':{var id='CUS-'+String(DB.customers.length+1).padStart(4,'0');DB.customers.push({customer_id:id,nama:pl.nama,wa:pl.wa||'',alamat:pl.alamat||''});return{customer_id:id};}
     case 'createOrder':{

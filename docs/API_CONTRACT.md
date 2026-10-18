@@ -10,6 +10,7 @@ GET publik: `?action=ping`, `?action=track&code=LND-...`, `?action=waQR&code=LND
 
 ## Actions
 login, getServices, getCustomers, createCustomer, createOrder (return +wa_link +track_url),
+updateServicePrice (owner only): {service_id, harga (>0), oleh} → {service_id, nama, harga} — harga baru langsung dipakai POS & nota,
 listOrders, getOrderDetail (return +track_url +wa_link), updateStatus (auto WA log saat SIAP_DIAMBIL/SELESAI),
 addPayment, dailyOmzet, waLink {order_id}, seedCheck, ping,
 dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_counts, stats7[7 hari]},

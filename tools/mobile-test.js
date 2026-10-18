@@ -17,6 +17,7 @@ var PAGES = [
   { hash: '#/expenses', name: '05-pengeluaran' },
   { hash: '#/stock', name: '06-stok' },
   { hash: '#/settings', name: '07-setting' },
+  { hash: '#/pricelist', name: '11-harga' },
   { hash: '#/laporan', name: '08-laporan' },
   { hash: '#/help', name: '09-bantuan' },
   { hash: '#/tracking', name: '10-lacak' }
@@ -55,6 +56,12 @@ var PAGES = [
       await page.screenshot({ path: path.join(OUT, p.name + '-full.png'), fullPage: true });
     }
   }
+
+  // 11. Drawer terbuka
+  await page.goto(BASE + '/#/pricelist', { waitUntil: 'networkidle2', timeout: 30000 }).catch(function () {});
+  await sleep(800);
+  var btnMenu = await page.$('#btnMenu');
+  if (btnMenu) { await btnMenu.click(); await sleep(600); await page.screenshot({ path: path.join(OUT, '12-drawer.png') }); }
 
   console.log('\n=== OVERFLOW / LAYOUT REPORT ===');
   reports.forEach(function (r) {
