@@ -1,7 +1,7 @@
 /** Bantuan — FAQ akordeon + kontak pengembang Deni Hartono. */
 var Help={render:function(){
 var faq=[
-['Bagaimana cara login ke aplikasi?','Buka URL aplikasi, masukkan PIN pada layar login. PIN diatur oleh owner (contoh bawaan: Kasir 1111, Owner 123456). Ganti PIN setelah masa uji coba.'],
+['Bagaimana cara login ke aplikasi?','Buka URL aplikasi, masukkan PIN pada layar login. PIN diatur oleh owner (PIN awal ada pada database seed — segera ganti setelah deploy via menu <b>Setting</b>).'],
 ['Bagaimana membuat pesanan baru?','Menu <b>POS</b> → cari/tambah pelanggan → klik kartu layanan untuk masukkan ke keranjang (atur qty dengan tombol +) → isi DP & metode bayar → <b>Buat Order</b> → tombol <b>Cetak + QR</b> untuk struk, atau <b>Kirim WA</b>.'],
 ['Bagaimana mengubah status pesanan?','Menu <b>Pesanan</b> → tombol Detail → pilih tombol status berikutnya (Diterima → Dicuci → Dikeringkan → Disetrika → Siap Diambil → Selesai). Hanya transisi yang diizinkan sistem yang muncul.'],
 ['Bagaimana notifikasi WA ke pelanggan?','Saat status diubah ke <b>Siap Diambil</b>/<b>Selesai</b>, sistem menyiapkan pesan WA otomatis (nomor 08xx → 62xx). Klik tombol <b>Kirim WA</b> di detail pesanan, lalu tekan kirim di WhatsApp.'],

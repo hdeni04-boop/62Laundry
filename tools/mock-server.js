@@ -29,6 +29,7 @@ function actions(p,req){
       pl.items.forEach(function(it){var s=svc(it.service_id);if(!s)throw new Error('Svc? '+it.service_id);var q=Number(it.qty)||0;if(q<=0)throw new Error('Qty>0');total+=s.harga*q;est=Math.max(est,s.estimasi_hari);});
       var n=DB.orders.filter(function(o){return o.order_id.indexOf('LND-'+d8())===0;}).length+1;
       var oid='LND-'+d8()+'-'+String(n).padStart(4,'0'),dp=Number(pl.bayar_dp)||0;
+      if(dp<0)throw new Error('DP tidak boleh negatif');if(dp>total)throw new Error('DP melebihi total '+total);
       var e=new Date();e.setDate(e.getDate()+est);var eS=e.toISOString().slice(0,10);
       DB.orders.push({order_id:oid,tanggal_masuk:dstr(),customer_id:pl.customer_id,outlet_id:'OUT-01',kasir:pl.kasir||'',total:total,bayar_dp:dp,sisa:total-dp,metode:pl.metode||'Cash',status:'DITERIMA',estimasi_selesai:eS});
       pl.items.forEach(function(it){var s=svc(it.service_id),q=Number(it.qty)||0;DB.items.push({order_id:oid,service_id:it.service_id,service_nama:s.nama,qty:q,harga_satuan:s.harga,subtotal:s.harga*q});});

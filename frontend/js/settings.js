@@ -3,7 +3,7 @@ var Settings={users:[],
 render:function(){var me=JSON.parse(localStorage.getItem('laundry_user')||'{}');
 document.getElementById('app').innerHTML='<section class="card settings"><div class=hd><div><h1>'+ic('settings','lg')+' Setting</h1><p class=mut>Kelola PIN kasir & pemilik. Hanya OWNER.</p></div></div><div id=setBody><div class=mut>'+ic('info')+' Memuat daftar user…</div></div></section>';
 if(me.role!=='owner'){document.getElementById('setBody').innerHTML='<div class=mut>'+ic('alert')+' Akses ditolak. Menu ini khusus OWNER.</div>';return;}
-Api.call('getUsers',{}).then(function(u){Settings.users=u||[];Settings.draw();});},
+Api.call('getUsers',{}).then(function(u){Settings.users=u||[];Settings.draw();}).catch(function(e){var sb=document.getElementById('setBody');if(sb)sb.innerHTML='<div class=mut>'+ic('alert')+' '+String(e.message||e)+'</div>';});},
 draw:function(){var kas=Settings.users.filter(function(u){return u.role==='kasir';}),own=Settings.users.filter(function(u){return u.role==='owner';});
 var el=document.getElementById('setBody');
 el.innerHTML='<h3 class=sec-title>'+ic('users','lg')+' PIN Kasir <span class=mut>('+kas.length+' akun)</span></h3><div class=grid2>'+kas.map(function(k){return '<div class="card"><div class=row style="justify-content:space-between"><div><b>'+k.nama+'</b><div class=mut>'+k.user_id+' • '+k.outlet_id+'</div></div><span class=badge b-SIAP_DIAMBIL>'+k.role+'</span></div><div class=row><input data-pin-for="'+k.user_id+'" type=password maxlength=32 placeholder="PIN baru 4-32 karakter"><button class="btn sm" data-save="'+k.user_id+'">Simpan PIN</button></div></div>';}).join('')+'</div>'+
