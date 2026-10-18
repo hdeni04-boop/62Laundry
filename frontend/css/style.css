@@ -102,6 +102,11 @@ main {
 }
 .hd h1 {
   margin: 0;
+  align-items: flex-start;
+}
+.hd h1 > .ic {
+  margin-top: 0.2em;
+  flex: none;
 }
 .row {
   display: flex;
@@ -706,6 +711,10 @@ table tr:last-child td {
   font-size: 18px;
   margin: 12px 0;
 }
+.login input::placeholder {
+  letter-spacing: normal;
+  opacity: 0.65;
+}
 .login .btn {
   width: 100%;
   justify-content: center;
@@ -990,6 +999,12 @@ table tr:last-child td {
   .nav {
     overflow-x: auto;
     scrollbar-width: none;
+    justify-content: flex-start;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  h1 {
+    font-size: 21px;
   }
   .nav::-webkit-scrollbar {
     display: none;
