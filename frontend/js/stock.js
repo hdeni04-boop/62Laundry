@@ -1,7 +1,7 @@
 /** Stok — kartu item, transaksi IN/OUT, riwayat. */
 var Stock={render:function(){document.getElementById('app').innerHTML=
 '<section class=hd><div><h1>'+ic('box','lg')+' Stok Kebutuhan Laundry</h1><p class=mut>Deterjen, pewangi, plastik, hanger — masuk & keluar</p></div><button class="btn" id=stAdd>'+ic('plus')+' Item Baru</button></section>'+
-'<div class="grid3 stkpi" id=stKpi></div><div id=stAddBox></div><div class="grid3 stlist" id=stList style="margin-top:14px"></div>'+
+'<div class="grid3 stkpi grid grid-cols-3 gap-[14px] tablet:grid-cols-2" id=stKpi></div><div id=stAddBox></div><div class="grid3 stlist grid grid-cols-3 gap-[14px] tablet:grid-cols-2 mobile:grid-cols-1" id=stList style="margin-top:14px"></div>'+
 '<section class="card stlog" style="margin-top:14px;padding:6px 14px 14px"><h3 style="padding:12px 4px 4px">'+ic('clock')+' Riwayat Transaksi Terakhir</h3><table><thead><tr><th>Waktu</th><th>Item</th><th>Jenis</th><th>Qty</th><th>Sisa</th><th>Keterangan</th><th>Oleh</th></tr></thead><tbody id=stLog></tbody></table></section>';
 var load=function(){Api.call('listStock',{}).then(function(d){var kd=document.getElementById('stKpi'),ll=document.getElementById('stList');if(!kd||!ll)return;d=d||{};d.items=d.items||[];var low=d.items.filter(function(i){return i.low;}).length;
 var k=[[ic('box','lg'),'', 'Total Item', d.items.length],[ic('drop','lg'),'warn','Stok Menipis',low],[ic('clock','lg'),'ok','Transaksi Hari Ini',d.tx_today||0]];

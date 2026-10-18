@@ -5,3 +5,5 @@ node_modules/
 Thumbs.db
 frontend/js/config.local.js
 tools/mobile-shots/
+frontend/css/tailwind.css
+frontend/js/lucide-icons.js

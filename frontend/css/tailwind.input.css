@@ -1,0 +1,7 @@
+@import "tailwindcss" important;
+
+@source "../index.html";
+@source "../js";
+
+@custom-variant mobile (@media (max-width: 720px));
+@custom-variant tablet (@media (max-width: 900px));

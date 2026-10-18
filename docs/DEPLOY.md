@@ -1,4 +1,4 @@
-# DEPLOY.md — Laundry 1 Outlet (Spreadsheet + Apps Script + Vanilla)
+# DEPLOY.md — Laundry 1 Outlet (Spreadsheet + Apps Script + Tailwind CSS)
 
 ## 1. Buat Spreadsheet
 1. Google Sheets baru > rename 8 sheet: Users, Outlets, Customers, Services, Orders, OrderItems, StatusLogs, Payments.
@@ -13,11 +13,11 @@
 
 ## 3. Sambung Frontend
 1. Edit `frontend/js/config.js`: isi WEB_APP_URL + TOKEN.
-2. Buka via Live Server / hosting statis. Login PIN (cth 1111).
+2. Jalankan `npm install` lalu `npm run build` dari root repository agar CSS Tailwind dan ikon Lucide dibuat secara lokal. Setelah itu, buka via Live Server / hosting statis. Login PIN (cth 1111).
 3. Alur uji: buat customer (manual tambah sheet dulu) > POS > buat order > Orders > update status > cetak struk > tracking `?code=LND-...`.
 
 ### Deploy ke Vercel
-Konfigurasi `vercel.json` di root mengarahkan Vercel untuk menyajikan folder `frontend` sebagai situs statis. Hubungkan repository ke Vercel dengan Root Directory tetap di root repository, lalu deploy. Jangan set Root Directory ke `frontend`, karena konfigurasi Vercel berada di root.
+Konfigurasi `vercel.json` di root menjalankan `npm run build` lalu mengarahkan Vercel untuk menyajikan folder `frontend` sebagai situs statis. Hubungkan repository ke Vercel dengan Root Directory tetap di root repository, lalu deploy. Jangan set Root Directory ke `frontend`, karena konfigurasi Vercel berada di root.
 
 ### Mode Demo (tanpa backend — untuk pratinjau di Vercel)
 Buka `https://<app-anda>.vercel.app/?demo=1` → login PIN `1111`/`123456` langsung masuk **tanpa backend**. Cocok untuk demo tampilan. Catatan: hanya login yang offline; menu yang butuh data (POS, Pesanan, dsb) tetap memerlukan backend. Untuk operasional penuh, selesaikan langkah 2 (Deploy Apps Script) lalu isi URL `/exec` di `frontend/js/config.js` dan redeploy.

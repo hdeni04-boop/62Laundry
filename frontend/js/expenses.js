@@ -3,15 +3,15 @@ var Expenses={render:function(){
   var u=JSON.parse(localStorage.getItem('laundry_user')||'{}');
   document.getElementById('app').innerHTML=
   '<section class=hd><div><h1>'+ic('money','lg')+' Pengeluaran & Laba Bersih</h1><p class=mut>Catat biaya operasional +62Laundry — laba = omzet − pengeluaran</p></div><button class="btn" id="exAdd">'+ic('plus')+' Catat Pengeluaran</button></section>'+
-  '<div class="grid3" id="exKpi"></div><div id="exAddBox"></div>'+
-  '<section class=card style="margin-top:14px;padding:6px 14px 14px"><h3 style="padding:12px 4px 4px">'+ic('clipboard')+' Riwayat Pengeluaran Terakhir</h3><table><thead><tr><th>Waktu</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Oleh</th></tr></thead><tbody id="exLog"></tbody></table></section>';
+  '<div class="grid3 grid grid-cols-3 gap-[14px] tablet:grid-cols-2 mobile:grid-cols-1" id="exKpi"></div><div id="exAddBox"></div>'+
+  '<section class=card style="margin-top:14px;padding:6px 14px 14px"><h3 style="padding:12px 4px 4px">'+ic('clipboard')+' Riwayat Pengeluaran Terakhir</h3><table class=mobile-table><thead><tr><th>Waktu</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Oleh</th></tr></thead><tbody id="exLog"></tbody></table></section>';
   var today=(function(){try{return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Jakarta'}).format(new Date());}catch(e){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}})();
   var load=function(){
     Promise.all([Api.call('dailyOmzet',{tanggal:today}),Api.call('listExpenses',{tanggal:today,limit:30})]).then(function(r){
       var om=r[0]||{},ex=r[1]||{};var ek=document.getElementById('exKpi'),el=document.getElementById('exLog');if(!ek||!el)return;
       var k=[{cls:'danger',lbl:'Pengeluaran Hari Ini',num:rupiah(ex.pengeluaran_hari_ini)},{cls:'ok',lbl:'Laba Bersih Hari Ini',num:rupiah(om.laba_bersih)},{cls:'',lbl:'Pengeluaran Bulan Ini',num:rupiah(ex.pengeluaran_bulan_ini)}];
       ek.innerHTML=k.map(function(x){return '<section class="card stat"><div class="chip '+x.cls+'">'+ic('money','lg')+'</div><div><div class="num">'+x.num+'</div><div class="lbl">'+x.lbl+'</div></div></section>';}).join('');
-      el.innerHTML=(ex.items||[]).map(function(t){return '<tr><td class="mut">'+t.timestamp+'</td><td><span class="badge b-DITERIMA">'+t.kategori+'</span></td><td class="mut">'+(t.keterangan||'-')+'</td><td><b>'+rupiah(t.jumlah)+'</b></td><td class="mut">'+t.oleh+'</td></tr>';}).join('')||'<tr><td colspan=5><div class="empty">Belum ada pengeluaran</div></td></tr>';
+      el.innerHTML=(ex.items||[]).map(function(t){return '<tr><td data-label="Waktu" class=mut>'+t.timestamp+'</td><td data-label="Kategori"><span class="badge b-DITERIMA">'+t.kategori+'</span></td><td data-label="Keterangan" class=mut>'+(t.keterangan||'-')+'</td><td data-label="Jumlah"><b>'+rupiah(t.jumlah)+'</b></td><td data-label="Oleh" class=mut>'+t.oleh+'</td></tr>';}).join('')||'<tr class=mobile-table-empty><td colspan=5><div class="empty">Belum ada pengeluaran</div></td></tr>';
     }).catch(function(e){toast(e.message,false);});
   };
   document.getElementById('exAdd').onclick=function(){var b=document.getElementById('exAddBox');

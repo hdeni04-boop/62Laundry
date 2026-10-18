@@ -6,35 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>+62Laundry</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tailwind.css">
     <link rel="icon" type="image/svg+xml" href="img/logo-icon.svg?v=2">
     <script>try { var t = localStorage.getItem('laundry_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) { }</script>
 </head>
 
 <body>
     <header class="topbar">
-        <button class="iconbtn" id="btnMenu" aria-label="Buka menu"><svg class="ic" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M4 6.5h16M4 12h16M4 17.5h16" />
-                </svg></button>
+        <button class="iconbtn" id="btnMenu" data-ic="menu" aria-label="Buka menu"></button>
         <div class="hdr-user"><span class="avatar" id="hdrAvatar">?</span>
             <div style="min-width:0"><b id="hdrName">+62Laundry</b><small id="hdrSub">OUT-01</small></div>
         </div>
         <div class="tools">
-            <button class="iconbtn" id="btnBell" aria-label="Notifikasi"><svg class="ic" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M6 9a6 6 0 1 1 12 0c0 4.5 1.5 6 1.5 6h-15S6 13.5 6 9z" />
-                    <path d="M10.5 19a1.8 1.8 0 0 0 3 0" />
-                </svg><span class="dot" id="bellCount" style="display:none">0</span></button>
-            <button class="iconbtn" id="btnTheme" aria-label="Ganti tema"><svg class="ic" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" />
-                </svg></button>
+            <button class="iconbtn" id="btnBell" data-ic="bell" aria-label="Notifikasi"><span class="dot" id="bellCount" style="display:none">0</span></button>
+            <button class="iconbtn" id="btnTheme" data-ic="moon" aria-label="Ganti tema"></button>
         </div>
     </header>
-    <main id="app"></main>
+    <main id="app" class="w-full min-w-0 max-w-[1140px] mx-auto px-[18px] pt-[22px] pb-[34px] mobile:px-[10px] mobile:pt-[12px] mobile:pb-[18px]"></main>
     <footer class="foot">
         <div class="foot-in">
             <div class="foot-copy"><b>+62 LAUNDRY</b><span>© 2026 Hak Cipta Dilindungi Undang-Undang</span></div>
@@ -77,6 +65,7 @@
     </nav>
     <script src="js/config.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/lucide-icons.js"></script>
     <script src="js/icons.js"></script>
     <script src="js/struk.js"></script>
     <script src="js/dashboard.js"></script>
@@ -92,7 +81,7 @@
     <script src="js/laporan.js"></script>
     <script>
         document.querySelectorAll('#bottomNav a').forEach(function (a) { var k = a.dataset.ic; if (k) a.querySelector('.ni').innerHTML = ic(k); });
-        document.querySelectorAll('#drawer [data-ic]').forEach(function (a) { var k = a.dataset.ic; if (k) a.insertAdjacentHTML('afterbegin', ic(k)); });
+        document.querySelectorAll('#drawer [data-ic], .topbar [data-ic]').forEach(function (a) { var k = a.dataset.ic; if (k) a.insertAdjacentHTML('afterbegin', ic(k)); });
         function initials(n) { n = String(n || '').trim(); if (!n) return '?'; var p = n.split(/\s+/); return (p[0][0] + (p[1] ? p[1][0] : '')).toUpperCase(); }
         function paintUser() { var u = {}; try { u = JSON.parse(localStorage.getItem('laundry_user') || '{}'); } catch (e) { } var nm = u.nama || 'Pengguna'; var sub = (u.role ? u.role.toUpperCase() + ' • ' : '') + 'OUT-01'; var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }; set('hdrName', u.nama ? 'Hi, ' + nm : '+62Laundry'); set('hdrSub', u.nama ? sub : 'Kasir & Manajemen — OUT-01'); set('dwName', nm); set('dwSub', u.nama ? sub : 'Silakan login'); var av = u.nama ? initials(u.nama) : '?'; set('hdrAvatar', av); set('dwAvatar', av); }
         function openDrawer() { var d = document.getElementById('drawer'), s = document.getElementById('scrim'); if (d) d.classList.add('open'); if (s) s.classList.add('show'); }
