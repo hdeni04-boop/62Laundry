@@ -15,6 +15,8 @@ listOrders, getOrderDetail (return +track_url +wa_link), updateStatus (auto WA l
 addPayment, dailyOmzet, waLink {order_id}, seedCheck, ping,
 dashboard {omzet_hari_ini, order_hari_ini, siap_diambil, belum_lunas, status_counts, stats7[7 hari]},
 
+Pada `createOrder`, `items[].qty` untuk layanan `kg` adalah berat dalam kilogram dengan presisi 0,001 kg (1 gram); subtotal dihitung dari harga per kg × berat dan dibulatkan ke rupiah. Untuk satuan lain, qty harus bilangan bulat. `getOrderDetail.items[]` menyertakan `service_satuan`.
+
 ## Pengaturan user (owner only)
 | action | payload | return |
 |---|---|---|

@@ -3022,3 +3022,163 @@ table td {
     padding-bottom: 0;
   }
 }
+
+.data-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(10, 24, 48, 0.38);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+
+.data-loader.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.data-loader-card {
+  display: flex;
+  width: min(240px, 82vw);
+  min-height: 190px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 18px;
+  border: 1px solid var(--bd);
+  border-radius: 18px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--shadow-float, 0 12px 36px rgba(25, 44, 79, 0.16));
+  text-align: center;
+}
+
+.data-loader-card b {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.data-loader-card > span {
+  color: var(--mut);
+  font-size: 12px;
+}
+
+.water-splash {
+  position: relative;
+  width: 92px;
+  height: 100px;
+}
+
+.water-drop {
+  position: absolute;
+  z-index: 2;
+  width: 11px;
+  height: 15px;
+  border-radius: 80% 15% 70% 70%;
+  background: linear-gradient(145deg, #8ee7ff, #1e9be9 72%);
+  opacity: 0;
+  transform: rotate(45deg) translateY(-24px) scale(0.7);
+  animation: water-fall 1.15s ease-in infinite;
+}
+
+.drop-one {
+  top: 8px;
+  left: 20px;
+}
+
+.drop-two {
+  top: 0;
+  left: 43px;
+  width: 13px;
+  height: 18px;
+  animation-delay: 0.28s;
+}
+
+.drop-three {
+  top: 10px;
+  right: 17px;
+  width: 9px;
+  height: 12px;
+  animation-delay: 0.56s;
+}
+
+.drop-four {
+  top: 27px;
+  left: 8px;
+  width: 7px;
+  height: 10px;
+  animation-delay: 0.42s;
+}
+
+.water-pool {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(30, 155, 233, 0.42), rgba(30, 155, 233, 0.08) 70%, transparent 72%);
+  animation: water-pulse 1.15s ease-in-out infinite;
+}
+
+.water-ripple {
+  position: absolute;
+  left: 30px;
+  bottom: 12px;
+  width: 32px;
+  height: 8px;
+  border: 2px solid rgba(30, 155, 233, 0.65);
+  border-radius: 50%;
+  animation: water-ripple 1.15s ease-out infinite;
+}
+
+@keyframes water-fall {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translateY(-24px) scale(0.65);
+  }
+  35% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.9;
+    transform: rotate(45deg) translateY(45px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translateY(55px) scale(0.4);
+  }
+}
+
+@keyframes water-pulse {
+  50% {
+    transform: scaleX(0.72);
+    opacity: 0.65;
+  }
+}
+
+@keyframes water-ripple {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.45);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .water-drop,
+  .water-pool,
+  .water-ripple {
+    animation-duration: 2.5s;
+  }
+}

@@ -40,6 +40,20 @@
         </div>
     </div>
     <div id="toast"></div>
+    <div id="dataLoader" class="data-loader" role="status" aria-live="polite" aria-hidden="true">
+        <div class="data-loader-card">
+            <div class="water-splash" aria-hidden="true">
+                <span class="water-drop drop-one"></span>
+                <span class="water-drop drop-two"></span>
+                <span class="water-drop drop-three"></span>
+                <span class="water-drop drop-four"></span>
+                <span class="water-pool"></span>
+                <span class="water-ripple"></span>
+            </div>
+            <b>Sedang memuat data...</b>
+            <span>Mohon tunggu sebentar</span>
+        </div>
+    </div>
     <div class="scrim" id="scrim"></div>
     <aside class="drawer" id="drawer" aria-label="Menu aplikasi">
         <div class="dw-profile"><span class="avatar lg" id="dwAvatar">?</span><b id="dwName">Pengguna</b><small
@@ -115,7 +129,7 @@
         _th.onclick = function () { var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('laundry_theme', n); paintTheme(); };
         document.getElementById('btnLogout').onclick = function () { closeDrawer(); try { localStorage.removeItem('laundry_user'); localStorage.removeItem('laundry_token'); } catch (e) { } Api.clearCache(); location.hash = '#/tracking'; clearInterval(window._bell); router(); };
         document.getElementById('btnBell').onclick = function () { sessionStorage.setItem('ordSt', 'SIAP_DIAMBIL'); location.hash = '#/orders'; if (location.hash === '#/orders') router(); };
-        function startBell() { clearInterval(window._bell); var up = function () { if (!localStorage.getItem('laundry_user')) return; Api.call('listOrders', { status: 'SIAP_DIAMBIL' }).then(function (r) { var b = document.getElementById('bellCount'); b.textContent = r.length; b.style.display = r.length ? 'grid' : 'none'; }).catch(function () { }); }; up(); window._bell = setInterval(up, 30000); }
+        function startBell() { clearInterval(window._bell); var up = function () { if (!localStorage.getItem('laundry_user')) return; Api.call('listOrders', { status: 'SIAP_DIAMBIL' }, false, { silent: true }).then(function (r) { var b = document.getElementById('bellCount'); b.textContent = r.length; b.style.display = r.length ? 'grid' : 'none'; }).catch(function () { }); }; up(); window._bell = setInterval(up, 30000); }
         paintTheme(); if (localStorage.getItem('laundry_user')) startBell(); router();
     </script>
 </body>

@@ -7,7 +7,41 @@ var Api={
   _inflight:Object.create(null),
   _cacheVersion:0,
   _cacheTtl:8000,
+  _loadingCount:0,
+  _loadingTimer:null,
+  _loadingHideTimer:null,
+  _loadingVisibleAt:0,
+  _loadingDelay:120,
+  _loadingMinDuration:400,
   _readActions:['dashboard','listOrders','getOrderDetail','getCustomers','getServices','listStock','stockLog','getUsers','dailyOmzet','listExpenses','monthlyReport'],
+  loadingStart:function(){
+    Api._loadingCount++;
+    clearTimeout(Api._loadingHideTimer);
+    if(Api._loadingCount!==1)return;
+    if(document.getElementById('dataLoader')&&document.getElementById('dataLoader').classList.contains('is-visible'))return;
+    Api._loadingTimer=setTimeout(function(){
+      var el=document.getElementById('dataLoader');
+      if(!el||Api._loadingCount===0)return;
+      el.classList.add('is-visible');
+      el.setAttribute('aria-hidden','false');
+      Api._loadingVisibleAt=Date.now();
+    },Api._loadingDelay);
+  },
+  loadingEnd:function(){
+    Api._loadingCount=Math.max(0,Api._loadingCount-1);
+    if(Api._loadingCount)return;
+    clearTimeout(Api._loadingTimer);
+    Api._loadingTimer=null;
+    var el=document.getElementById('dataLoader');
+    if(!el||!el.classList.contains('is-visible'))return;
+    var wait=Math.max(0,Api._loadingMinDuration-(Date.now()-Api._loadingVisibleAt));
+    Api._loadingHideTimer=setTimeout(function(){
+      if(Api._loadingCount)return;
+      el.classList.remove('is-visible');
+      el.setAttribute('aria-hidden','true');
+      Api._loadingHideTimer=null;
+    },wait);
+  },
   demo:function(){try{return new URLSearchParams(location.search).get('demo')==='1';}catch(e){return false;}},
   clearCache:function(){
     Api._cacheVersion++;
@@ -23,7 +57,7 @@ var Api={
     return{token:'DEMO',user:u};
   },
   netErr:function(e){return (e instanceof TypeError)||/failed to fetch|networkerror|load failed|network request failed/i.test(String((e&&e.message)||''));},
-  call:function(action,payload,noAuth){
+  call:function(action,payload,noAuth,options){
     if(Api.demo()&&action==='login'){
       return Promise.resolve().then(function(){
         var r=Api.demoLogin((payload||{}).pin);
@@ -42,6 +76,8 @@ var Api={
     if(cached)delete Api._readCache[key];
     if(key&&Api._inflight[key])return Api._inflight[key].then(Api.copy);
     var version=Api._cacheVersion;
+    var showLoading=!(options&&options.silent);
+    if(showLoading)Api.loadingStart();
     var request=fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:action,token:token,payload:payload})})
       .catch(function(e){
         if(Api.netErr(e))throw new Error('Backend belum tersambung. '+(Api.demo()?'':'Buka dengan ?demo=1 untuk mode demo, atau ')+'isi URL Web App /exec yang valid di js/config.js (lihat docs/DEPLOY.md langkah 2).');
@@ -61,6 +97,7 @@ var Api={
         }
         return j.data;
       });
+    if(showLoading)request.then(Api.loadingEnd,Api.loadingEnd);
     if(key){
       Api._inflight[key]=request;
       request.then(function(){if(Api._inflight[key]===request)delete Api._inflight[key];},function(){if(Api._inflight[key]===request)delete Api._inflight[key];});
@@ -70,12 +107,15 @@ var Api={
     return request;
   },
   get:function(q){
-    return fetch(CONFIG.WEB_APP_URL+q)
+    Api.loadingStart();
+    var request=fetch(CONFIG.WEB_APP_URL+q)
       .catch(function(e){
         if(Api.netErr(e))throw new Error('Backend belum tersambung. Isi URL Web App /exec yang valid di js/config.js (lihat docs/DEPLOY.md langkah 2).');
         throw e;
       })
       .then(function(r){return r.json();})
       .then(function(j){if(!j.ok)throw new Error(j.error);return j.data;});
+    request.then(Api.loadingEnd,Api.loadingEnd);
+    return request;
   }
 };

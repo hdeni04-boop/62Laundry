@@ -42,6 +42,7 @@ Baris 1 = header (beku / Freeze). Jangan ubah urutan kolom.
 
 ## 6. OrderItems
 | order_id | service_id | qty | harga_satuan | subtotal |
+- `qty`: untuk layanan kg disimpan dalam kilogram hingga 3 angka desimal (1 gram); satuan lain disimpan sebagai bilangan bulat.
 
 ## 7. StatusLogs
 | log_id | order_id | dari | ke | oleh | timestamp | catatan |

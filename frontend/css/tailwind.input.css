@@ -5,3 +5,85 @@
 
 @custom-variant mobile (@media (max-width: 720px));
 @custom-variant tablet (@media (max-width: 900px));
+
+@media (max-width: 720px) {
+  body,
+  body :where(*) {
+    font-size: 12px !important;
+  }
+
+  #app :where(h1) {
+    font-size: 16px !important;
+    line-height: 1.3;
+  }
+
+  #app :where(h2) {
+    font-size: 14px !important;
+    line-height: 1.35;
+  }
+
+  #app :where(h3, h4, summary, .btn, .badge, .chip) {
+    font-size: 12px !important;
+    line-height: 1.4;
+  }
+
+  #app :where(input, select, textarea) {
+    min-height: 36px;
+    padding: 6px 8px;
+    font-size: 14px !important;
+  }
+
+  #app :where(.grid) {
+    gap: 6px !important;
+  }
+
+  #app :where(.card, .settings .card) {
+    padding: 8px !important;
+    border-radius: 10px;
+  }
+
+  #app :where(.btn, .iconbtn) {
+    min-height: 32px;
+    padding: 5px 7px;
+  }
+
+  #app :where(.ic),
+  .topbar .ic,
+  .bottomnav .ic {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  #app :where(.ic.lg) {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .topbar {
+    min-height: 46px;
+    padding: 4px 7px;
+    gap: 5px;
+  }
+
+  .topbar .iconbtn {
+    min-width: 30px;
+    min-height: 30px;
+    padding: 4px;
+  }
+
+  .bottomnav {
+    padding: 3px;
+    border-radius: 14px;
+  }
+
+  .bottomnav a {
+    min-height: 40px;
+    padding: 2px;
+    font-size: 10px !important;
+  }
+
+  .bottomnav a .ni {
+    width: 24px;
+    height: 21px;
+  }
+}
