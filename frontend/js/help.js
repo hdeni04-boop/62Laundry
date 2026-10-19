@@ -1,7 +1,7 @@
 /** Bantuan — FAQ akordeon + kontak pengembang Deni Hartono. */
 var Help={render:function(){
 var faq=[
-['Bagaimana cara login ke aplikasi?','Buka URL aplikasi, masukkan PIN pada layar login. PIN diatur oleh owner (contoh bawaan: Kasir 1111, Owner 123456). Ganti PIN setelah masa uji coba.'],
+['Bagaimana cara login ke aplikasi?','Buka URL aplikasi, masukkan PIN pada layar login. PIN diatur oleh owner (PIN awal ada pada database seed — segera ganti setelah deploy via menu <b>Setting</b>).'],
 ['Bagaimana membuat pesanan baru?','Menu <b>POS</b> → cari/tambah pelanggan → klik kartu layanan untuk masukkan ke keranjang (atur qty dengan tombol +) → isi DP & metode bayar → <b>Buat Order</b> → tombol <b>Cetak + QR</b> untuk struk, atau <b>Kirim WA</b>.'],
 ['Bagaimana mengubah status pesanan?','Menu <b>Pesanan</b> → tombol Detail → pilih tombol status berikutnya (Diterima → Dicuci → Dikeringkan → Disetrika → Siap Diambil → Selesai). Hanya transisi yang diizinkan sistem yang muncul.'],
 ['Bagaimana notifikasi WA ke pelanggan?','Saat status diubah ke <b>Siap Diambil</b>/<b>Selesai</b>, sistem menyiapkan pesan WA otomatis (nomor 08xx → 62xx). Klik tombol <b>Kirim WA</b> di detail pesanan, lalu tekan kirim di WhatsApp.'],
@@ -12,4 +12,4 @@ var contact='<section class=card style="margin-bottom:14px"><h3>'+ic('users')+' 
 '<section class=card><h3>'+ic('info')+' Tentang Aplikasi</h3><div class=row style="justify-content:space-between"><span class=mut>Nama</span><b>+62Laundry</b></div><div class=row style="justify-content:space-between"><span class=mut>Versi</span><b>01.10.26</b></div><div class=row style="justify-content:space-between"><span class=mut>Outlet</span><b>OUT-01</b></div></section>';
 document.getElementById('app').innerHTML=
 '<section class=hd><div><h1>'+ic('help','lg')+' Bantuan & FAQ</h1><p class=mut>Panduan pemakaian +62Laundry — pertanyaan yang sering diajukan</p></div></section>'+
-'<div class=grid2><section class=card><h3>'+ic('help')+' Pertanyaan Umum</h3>'+faq.map(function(f,i){return '<details class=faq'+(i===0?' open':'')+'><summary>'+f[0]+'</summary><p>'+f[1]+'</p></details>';}).join('')+'</section><div>'+contact+'</div></div>';}};
+'<div class="grid2 grid grid-cols-2 gap-[14px] mobile:grid-cols-1"><section class=card><h3>'+ic('help')+' Pertanyaan Umum</h3>'+faq.map(function(f,i){return '<details class=faq'+(i===0?' open':'')+'><summary>'+f[0]+'</summary><p>'+f[1]+'</p></details>';}).join('')+'</section><div>'+contact+'</div></div>';}};

@@ -9,10 +9,10 @@ Baris 1 = header (beku / Freeze). Jangan ubah urutan kolom.
 ## 1. Users
 | user_id | nama | pin | role | outlet_id | aktif |
 |---|---|---|---|---|---|
-| USR-01 | Owner | 123456 | owner | OUT-01 | TRUE |
+| USR-01 | Owner | 123123@ | owner | OUT-01 | TRUE |
 | USR-02 | Kasir 1 | 1111 | kasir | OUT-01 | TRUE |
 - `role`: owner / kasir (kurir ditunda Fase-2)
-- `pin`: 4-6 digit, disimpan plain di Sheet MVP (jangan share Sheet ke publik).
+- `pin`: 4-32 karakter (boleh huruf/angka/@ . _ -), disimpan plain di Sheet MVP (jangan share Sheet ke publik).
 
 ## 2. Outlets
 | outlet_id | nama | alamat | telp |
@@ -42,6 +42,7 @@ Baris 1 = header (beku / Freeze). Jangan ubah urutan kolom.
 
 ## 6. OrderItems
 | order_id | service_id | qty | harga_satuan | subtotal |
+- `qty`: untuk layanan kg disimpan dalam kilogram hingga 3 angka desimal (1 gram); satuan lain disimpan sebagai bilangan bulat.
 
 ## 7. StatusLogs
 | log_id | order_id | dari | ke | oleh | timestamp | catatan |

@@ -6,54 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>+62Laundry</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tailwind.css">
     <link rel="icon" type="image/svg+xml" href="img/logo-icon.svg?v=2">
     <script>try { var t = localStorage.getItem('laundry_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) { }</script>
 </head>
 
 <body>
     <header class="topbar">
-        <div class="brand"><span class="logo logoimg logoimg-wide"><img src="img/logo.svg" alt="Logo +62Laundry"></span>
+        <button class="iconbtn" id="btnMenu" data-ic="menu" aria-label="Buka menu"></button>
+        <div class="hdr-user"><span class="avatar" id="hdrAvatar">?</span>
+            <div style="min-width:0"><b id="hdrName">+62Laundry</b><small id="hdrSub">OUT-01</small></div>
         </div>
-        <nav class="nav" id="mainNav">
-            <a href="#/dashboard"><b class="ni"></b><span>Dasbor</span></a>
-            <a href="#/pos"><b class="ni"></b><span>POS</span></a>
-            <a href="#/orders"><b class="ni"></b><span>Pesanan</span></a>
-            <a href="#/customers"><b class="ni"></b><span>Pelanggan</span></a>
-            <a href="#/expenses"><b class="ni"></b><span>Pengeluaran</span></a>
-            <a href="#/stock"><b class="ni"></b><span>Stok</span></a>
-            <a href="#/settings"><b class="ni"></b><span>Setting</span></a>
-            <a href="#/tracking"><b class="ni"></b><span>Lacak</span></a>
-            <a href="#/laporan"><b class="ni"></b><span>Laporan</span></a>
-            <a href="#/help"><b class="ni"></b><span>Bantuan</span></a>
-        </nav>
         <div class="tools">
-            <button class="iconbtn" id="btnBell" aria-label="Notifikasi"><svg class="ic" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M6 9a6 6 0 1 1 12 0c0 4.5 1.5 6 1.5 6h-15S6 13.5 6 9z" />
-                    <path d="M10.5 19a1.8 1.8 0 0 0 3 0" />
-                </svg><span class="dot" id="bellCount" style="display:none">0</span></button>
-            <button class="iconbtn" id="btnTheme" aria-label="Ganti tema"><svg class="ic" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" />
-                </svg></button>
-            <button class="iconbtn" id="btnLogout" aria-label="Keluar"><svg class="ic" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                    aria-hidden="true">
-                    <path d="M14 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8" />
-                    <path d="M17 8l4 4-4 4" />
-                    <path d="M21 12H10" />
-                </svg></button>
+            <button class="iconbtn" id="btnBell" data-ic="bell" aria-label="Notifikasi"><span class="dot" id="bellCount" style="display:none">0</span></button>
+            <button class="iconbtn" id="btnTheme" data-ic="moon" aria-label="Ganti tema"></button>
         </div>
     </header>
-    <main id="app"></main>
+    <main id="app" class="w-full min-w-0 max-w-[1140px] mx-auto px-[18px] pt-[22px] pb-[34px] mobile:px-[10px] mobile:pt-[12px] mobile:pb-[18px]"></main>
     <footer class="foot">
         <div class="foot-in">
-            <div><b>+62 LAUNDRY</b> — © 2026 Hak Cipta Dilindungi Undang-Undang</div>
-            <div><a href="https://wa.me/6282115261194" target="_blank" rel="noopener">Hubungi Kami</a> · <a href="#"
-                    onclick="return legal('priv')">Kebijakan Privasi</a> · <a href="#"
-                    onclick="return legal('terms')">Syarat &amp; Ketentuan</a></div>
+            <div class="foot-copy"><b>+62 LAUNDRY</b><span>© 2026 Hak Cipta Dilindungi Undang-Undang</span></div>
+            <nav class="foot-links" aria-label="Tautan footer">
+                <a href="https://wa.me/6282115261194" target="_blank" rel="noopener">Hubungi Kami</a>
+                <a href="#" onclick="return legal('priv')">Kebijakan Privasi</a>
+                <a href="#" onclick="return legal('terms')">Syarat &amp; Ketentuan</a>
+            </nav>
         </div>
     </footer>
     <div class="ovl" id="legalOvl">
@@ -63,8 +40,46 @@
         </div>
     </div>
     <div id="toast"></div>
+    <div id="dataLoader" class="data-loader" role="status" aria-live="polite" aria-hidden="true">
+        <div class="data-loader-card">
+            <div class="water-splash" aria-hidden="true">
+                <span class="water-drop drop-one"></span>
+                <span class="water-drop drop-two"></span>
+                <span class="water-drop drop-three"></span>
+                <span class="water-drop drop-four"></span>
+                <span class="water-pool"></span>
+                <span class="water-ripple"></span>
+            </div>
+            <b>Sedang memuat data...</b>
+            <span>Mohon tunggu sebentar</span>
+        </div>
+    </div>
+    <div class="scrim" id="scrim"></div>
+    <aside class="drawer" id="drawer" aria-label="Menu aplikasi">
+        <div class="dw-profile"><span class="avatar lg" id="dwAvatar">?</span><b id="dwName">Pengguna</b><small
+                id="dwSub">OUT-01</small></div>
+        <nav class="dw-menu" id="dwMenu">
+            <a href="#/orders" data-ic="clipboard"><span>Pesanan</span></a>
+            <a href="#/customers" data-ic="users"><span>Pelanggan</span></a>
+            <a href="#/expenses" data-ic="money"><span>Pengeluaran</span></a>
+            <a href="#/stock" data-ic="box"><span>Stok</span></a>
+            <a href="#/pricelist" data-ic="tag"><span>Daftar Harga</span></a>
+            <a href="#/tracking" data-ic="pin"><span>Lacak Cucian</span></a>
+            <a href="#/help" data-ic="help"><span>Bantuan</span></a>
+            <a href="#/settings" data-ic="settings"><span>Setting</span></a>
+        </nav>
+        <button class="dw-logout" id="btnLogout" data-ic="logout"><span>Keluar</span></button>
+    </aside>
+    <nav class="bottomnav" id="bottomNav" aria-label="Navigasi utama">
+        <a href="#/dashboard" data-ic="home"><b class="ni"></b><span>Dasbor</span></a>
+        <a href="#/pos" data-ic="cart"><b class="ni"></b><span>POS</span></a>
+        <a href="#/pricelist" data-ic="tag"><b class="ni"></b><span>Harga</span></a>
+        <a href="#/laporan" data-ic="chart"><b class="ni"></b><span>Laporan</span></a>
+        <a href="#" id="btnMore" data-ic="more"><b class="ni"></b><span>Lainnya</span></a>
+    </nav>
     <script src="js/config.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/lucide-icons.js"></script>
     <script src="js/icons.js"></script>
     <script src="js/struk.js"></script>
     <script src="js/dashboard.js"></script>
@@ -74,26 +89,28 @@
     <script src="js/stock.js"></script>
     <script src="js/expenses.js"></script>
     <script src="js/settings.js"></script>
+    <script src="js/pricelist.js"></script>
     <script src="js/help.js"></script>
     <script src="js/tracking.js"></script>
     <script src="js/laporan.js"></script>
     <script>
-        var NAV_ICONS = { dashboard: 'home', pos: 'cart', orders: 'clipboard', customers: 'users', stock: 'box', expenses: 'money', settings: 'settings', tracking: 'pin', laporan: 'chart', help: 'help' };
-        document.querySelectorAll('#mainNav a').forEach(function (a) { var k = a.getAttribute('href').slice(2); a.querySelector('.ni').innerHTML = ic(NAV_ICONS[k] || 'dot'); });
-        /* head action icons + brand logo tersedia inline di HTML (progressive enhancement) */
-        var routes = { '#/dashboard': Dashboard.render, '#/pos': POS.render, '#/orders': Orders.render, '#/customers': Customers.render, '#/stock': Stock.render, '#/expenses': Expenses.render, '#/settings': Settings.render, '#/tracking': Tracking.render, '#/laporan': Laporan.render, '#/help': Help.render };
-        function markNav(h) { document.querySelectorAll('#mainNav a').forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === h); }); }
-        function router() { var h = location.hash || '#/dashboard'; if (new URLSearchParams(location.search).get('code')) h = '#/tracking'; if (!localStorage.getItem('laundry_user') && h !== '#/tracking') { markNav(''); return Login.render(); } markNav(h); (routes[h] || Dashboard.render)(); }
+        document.querySelectorAll('#bottomNav a').forEach(function (a) { var k = a.dataset.ic; if (k) a.querySelector('.ni').innerHTML = ic(k); });
+        document.querySelectorAll('#drawer [data-ic], .topbar [data-ic]').forEach(function (a) { var k = a.dataset.ic; if (k) a.insertAdjacentHTML('afterbegin', ic(k)); });
+        function initials(n) { n = String(n || '').trim(); if (!n) return '?'; var p = n.split(/\s+/); return (p[0][0] + (p[1] ? p[1][0] : '')).toUpperCase(); }
+        function paintUser() { var u = {}; try { u = JSON.parse(localStorage.getItem('laundry_user') || '{}'); } catch (e) { } var nm = u.nama || 'Pengguna'; var sub = (u.role ? u.role.toUpperCase() + ' • ' : '') + 'OUT-01'; var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; }; set('hdrName', u.nama ? 'Hi, ' + nm : '+62Laundry'); set('hdrSub', u.nama ? sub : 'Kasir & Manajemen — OUT-01'); set('dwName', nm); set('dwSub', u.nama ? sub : 'Silakan login'); var av = u.nama ? initials(u.nama) : '?'; set('hdrAvatar', av); set('dwAvatar', av); }
+        function openDrawer() { var d = document.getElementById('drawer'), s = document.getElementById('scrim'); if (d) d.classList.add('open'); if (s) s.classList.add('show'); }
+        function closeDrawer() { var d = document.getElementById('drawer'), s = document.getElementById('scrim'); if (d) d.classList.remove('open'); if (s) s.classList.remove('show'); }
+        document.getElementById('btnMenu').onclick = openDrawer;
+        document.getElementById('scrim').onclick = closeDrawer;
+        document.getElementById('btnMore').onclick = function (e) { e.preventDefault(); openDrawer(); };
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrawer(); });
+        var routes = { '#/dashboard': Dashboard.render, '#/pos': POS.render, '#/orders': Orders.render, '#/customers': Customers.render, '#/stock': Stock.render, '#/expenses': Expenses.render, '#/settings': Settings.render, '#/pricelist': Pricelist.render, '#/tracking': Tracking.render, '#/laporan': Laporan.render, '#/help': Help.render };
+        function markNav(h) { document.querySelectorAll('#bottomNav a, #dwMenu a').forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === h); }); }
+        function router() { var h = location.hash || '#/dashboard'; var params = new URLSearchParams(location.search); var forceLogin = params.get('login') === '1'; if (!forceLogin && params.get('code')) h = '#/tracking'; var logged = !!localStorage.getItem('laundry_user'); document.body.classList.toggle('view-auth', !logged || forceLogin); closeDrawer(); if (forceLogin || (!logged && h !== '#/tracking')) { markNav(''); paintUser(); return Login.render(); } markNav(h); paintUser(); (routes[h] || Dashboard.render)(); }
         window.addEventListener('hashchange', router);
-        var Login = { render: function () { document.getElementById('app').innerHTML = '<section class="card login"><div class="logo"><span style="display:block;transform:scale(1.6)">' + ic('washer', 'lg') + '</span></div><h2 style="margin:0">+62Laundry</h2><p class="mut">Kasir & Manajemen — OUT-01</p><input id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••"><button class="btn" id="btnLogin">Masuk ' + ic('arrow') + '</button><div class="demo"><button class="chip" data-pin="1111">' + ic('user') + ' Kasir 1111</button><button class="chip" data-pin="123456">' + ic('star') + ' Owner 123456</button></div><div style="margin-top:10px"><button class="btn ghost sm" id="btnCfg">' + ic('settings') + ' Atur Backend</button></div><div id="cfgBox" style="display:none;margin-top:10px;text-align:left"><div class="mut" style="font-size:12.5px;margin-bottom:6px">URL Web App Apps Script (<b>/exec</b>). Contoh: <span style="word-break:break-all">https://script.google.com/macros/s/XXXX/exec</span></div><input id="cfgUrl" placeholder="https://script.google.com/macros/s/…/exec" style="width:100%"><div class="row" style="margin-top:8px"><button class="btn sm" id="cfgSave">' + ic('check') + ' Simpan</button><button class="btn ghost sm" id="cfgTest">Tes Koneksi</button><button class="btn ghost sm" id="cfgReset">Reset</button></div><div class="mut" id="cfgCur" style="margin-top:6px;font-size:12.5px"></div></div></section>';
-        document.querySelectorAll('[data-pin]').forEach(function (b) { b.onclick = function () { document.getElementById('pin').value = b.dataset.pin; }; });
-        document.getElementById('btnLogin').onclick = function () { var pv = (document.getElementById('pin').value || '').trim(); if (!pv) return toast('Isi PIN dulu', false); if (CONFIG.isPlaceholder && CONFIG.isPlaceholder()) { document.getElementById('cfgBox').style.display = 'block'; paintCfg(); return toast('Backend belum dikonfigurasi — isi URL Web App dulu di bawah.', false); } Api.call('login', { pin: pv }, true).then(function (r) { localStorage.setItem('laundry_user', JSON.stringify(r.user)); location.hash = '#/dashboard'; router(); startBell(); }).catch(function (e) { toast(e.message, false); }); };
-        var paintCfg = function () { var c = document.getElementById('cfgCur'); if (c) c.innerHTML = 'Aktif: <span style="word-break:break-all"><b>' + CONFIG.WEB_APP_URL + '</b></span>' + (CONFIG.isPlaceholder() ? ' <span class="chip danger">belum dikonfigurasi</span>' : ' <span class="chip ok">terkonfigurasi</span>'); var i = document.getElementById('cfgUrl'); if (i && !i.value) i.value = CONFIG.isPlaceholder() ? '' : CONFIG.WEB_APP_URL; };
-        document.getElementById('btnCfg').onclick = function () { var b = document.getElementById('cfgBox'); b.style.display = b.style.display === 'none' ? 'block' : 'none'; paintCfg(); };
-        document.getElementById('cfgSave').onclick = function () { try { CONFIG.setWebApp(document.getElementById('cfgUrl').value); toast('URL backend disimpan'); paintCfg(); } catch (e) { toast(e.message, false); } };
-        document.getElementById('cfgTest').onclick = function () { try { CONFIG.setWebApp(document.getElementById('cfgUrl').value); } catch (e) { return toast(e.message, false); } paintCfg(); toast('Menghubungi server…'); Api.get('?action=ping').then(function (d) { toast('Terhubung ✓ (' + (d.time || 'ok') + ')'); }).catch(function (e) { toast(e.message, false); }); };
-        document.getElementById('cfgReset').onclick = function () { CONFIG.resetWebApp(); document.getElementById('cfgUrl').value = ''; paintCfg(); toast('URL backend di-reset'); };
-        paintCfg(); } };
+        var Login = { render: function () { var isDemo = Api.demo(); document.getElementById('app').innerHTML = '<section class="card login"><div class="logo logoimg logoimg-wide login-brand"><img src="img/logo.svg" alt="+62Laundry"></div>' + (isDemo ? '<div class="chip ok" style="margin-bottom:10px">' + ic('spark') + ' Mode Demo — tanpa backend</div>' : '') + '<input id="pin" type="password" autocomplete="current-password" maxlength="32" placeholder="Masukkan PIN"><button class="btn" id="btnLogin">Masuk ' + ic('arrow') + '</button></section>';
+        document.getElementById('btnLogin').onclick = function () { var pv = (document.getElementById('pin').value || '').trim(); if (!pv) return toast('Isi PIN dulu', false); Api.call('login', { pin: pv }, true).then(function (r) { localStorage.setItem('laundry_user', JSON.stringify(r.user)); if (new URLSearchParams(location.search).get('login') === '1') { var url = new URL(location.href); url.searchParams.delete('login'); history.replaceState(null, '', url.pathname + url.search + url.hash); } location.hash = '#/dashboard'; router(); startBell(); }).catch(function (e) { toast(e.message, false); }); };
+        document.getElementById('pin').onkeydown = function (e) { if (e.key === 'Enter') document.getElementById('btnLogin').click(); }; } };
         function toast(m, ok) { var t = document.getElementById('toast'); t.innerHTML = (ok === false ? ic('alert') : ic('check')) + '<span>' + m + '</span>'; t.className = 'show' + (ok === false ? ' err' : ''); clearTimeout(window._tt); window._tt = setTimeout(function () { t.className = ''; }, 3200); }
         var LEGAL = {
             priv: {
@@ -110,9 +127,9 @@
         function rupiah(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
         var _th = document.getElementById('btnTheme'); function paintTheme() { var d = document.documentElement.getAttribute('data-theme') === 'dark'; _th.innerHTML = d ? ic('sun') : ic('moon'); }
         _th.onclick = function () { var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('laundry_theme', n); paintTheme(); };
-        document.getElementById('btnLogout').onclick = function () { localStorage.clear(); location.hash = '#/tracking'; clearInterval(window._bell); router(); };
+        document.getElementById('btnLogout').onclick = function () { closeDrawer(); try { localStorage.removeItem('laundry_user'); localStorage.removeItem('laundry_token'); } catch (e) { } Api.clearCache(); location.hash = '#/tracking'; clearInterval(window._bell); router(); };
         document.getElementById('btnBell').onclick = function () { sessionStorage.setItem('ordSt', 'SIAP_DIAMBIL'); location.hash = '#/orders'; if (location.hash === '#/orders') router(); };
-        function startBell() { clearInterval(window._bell); var up = function () { if (!localStorage.getItem('laundry_user')) return; Api.call('listOrders', { status: 'SIAP_DIAMBIL' }).then(function (r) { var b = document.getElementById('bellCount'); b.textContent = r.length; b.style.display = r.length ? 'grid' : 'none'; }).catch(function () { }); }; up(); window._bell = setInterval(up, 30000); }
+        function startBell() { clearInterval(window._bell); var up = function () { if (!localStorage.getItem('laundry_user')) return; Api.call('listOrders', { status: 'SIAP_DIAMBIL' }, false, { silent: true }).then(function (r) { var b = document.getElementById('bellCount'); b.textContent = r.length; b.style.display = r.length ? 'grid' : 'none'; }).catch(function () { }); }; up(); window._bell = setInterval(up, 30000); }
         paintTheme(); if (localStorage.getItem('laundry_user')) startBell(); router();
     </script>
 </body>

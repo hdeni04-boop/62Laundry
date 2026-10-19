@@ -4,3 +4,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 frontend/js/config.local.js
+tools/mobile-shots/
+frontend/css/tailwind.css
+frontend/js/lucide-icons.js

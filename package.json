@@ -2,10 +2,23 @@
   "name": "laundry-app-1outlet",
   "version": "1.0.0",
   "private": true,
-  "description": "+62Laundry MVP - Spreadsheet + Apps Script + Vanilla JS",
+  "description": "+62Laundry MVP - Spreadsheet + Apps Script + Tailwind CSS + Lucide",
   "type": "commonjs",
   "scripts": {
-    "start": "node tools/mock-server.js",
-    "check": "node --check tools/mock-server.js"
+    "build": "node tools/build-frontend.js",
+    "start": "npm run build && node tools/mock-server.js",
+    "check": "node --check tools/mock-server.js && node --check tools/build-frontend.js"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "lucide-static": "^1.59.0",
+    "puppeteer-core": "^25.14.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "overrides": {
+    "@parcel/watcher": "^2.6.0"
   }
 }
